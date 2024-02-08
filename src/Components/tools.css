@@ -1,28 +1,38 @@
-.tools-container {
+.wallet-connect-container {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    /* Set height to full viewport height */
+    /* Full screen height */
+    background-color: #ffdd57;
 }
 
-.connect-wallet-button {
+.stake-accounts-container {
     background-color: #ffdd57;
-    /* Example background color */
-    color: #000;
-    /* Text color */
-    padding: 20px 40px;
-    /* Adjust padding */
-    font-size: 18px;
-    /* Adjust font size */
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+    padding: 20px;
 }
 
-.with-background {
-    background-color: #ffdd57;
-    /* Example background color */
-    /* You can also use background-image with a URL */
-    /* background-image: url('path_to_your_background_image.jpg'); */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    text-align: left;
+    padding: 8px;
+}
+
+th {
+    font-family: 'Permanent Marker', cursive;
+    font-size: 22px;
+}
+
+td {
+    font-family: 'Amatic SC', cursive;
+    font-size: 20px;
+}
+
+button {
+    margin-right: 10px;
 }
