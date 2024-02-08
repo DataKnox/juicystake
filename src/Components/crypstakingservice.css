@@ -1,0 +1,62 @@
+@import url('https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&display=swap');
+
+
+.staking-services-section {
+    display: flex;
+    flex-direction: column;
+    /* Change to column direction */
+    background-color: #ffdd57;
+    padding-top: 70px;
+    /* Add padding on the top */
+    padding-bottom: 20px;
+    /* Add padding on the bottom */
+    /* Optionally, you can add padding on the left and right sides */
+    padding-left: 0;
+    /* Adjust as needed */
+    padding-right: 0;
+    /* Adjust as needed */
+}
+
+.scrolling-services {
+    padding: 20px;
+    font-size: 38px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    white-space: nowrap;
+    animation: scroll-left 20s linear infinite;
+}
+
+.section-wrapper {
+    display: flex;
+}
+
+.node-section {
+    font-family: 'Amatic SC', cursive;
+    font-size: 40px;
+    flex: 1;
+    margin-right: 20px;
+}
+
+.image-section {
+    width: 50%;
+    height: 300px;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+
+.drinks-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+@keyframes scroll-left {
+    0% {
+        transform: translateX(100%);
+    }
+
+    100% {
+        transform: translateX(-100%);
+    }
+}

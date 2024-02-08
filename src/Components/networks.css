@@ -1,0 +1,59 @@
+@import url('https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&display=swap');
+
+.networks-container {
+    display: flex;
+    flex-direction: column;
+    /* Set flex direction to column */
+    align-items: center;
+    /* Center items horizontally */
+    background-color: #ffdd57;
+    /* Example background color */
+    padding: 20px;
+    /* Example padding */
+    padding-bottom: 90px;
+    padding-top: 60px;
+}
+
+.network-row {
+    font-family: 'Amatic SC', cursive;
+    font-weight: bold;
+    font-size: 40px;
+    display: flex;
+    justify-content: center;
+    /* Center items horizontally */
+    margin-bottom: 20px;
+    /* Add margin between rows */
+}
+
+.network {
+    text-align: center;
+    margin: 0 100px;
+    /* Add horizontal margin for spacing */
+    padding-left: 100px;
+    padding-right: 100px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    /* Add padding to create boxes around the networks */
+    /* Add border for visualization */
+}
+
+.network-icon {
+    width: 100px;
+    /* Adjust icon width as needed */
+    height: 100px;
+    /* Adjust icon height as needed */
+}
+
+.network-text {
+    margin-top: 10px;
+    /* Add spacing between icon and text */
+    font-size: 40px;
+    /* Adjust text size as needed */
+}
+
+.with-background {
+    background-color: #ffdd57;
+    /* Example background color */
+    /* You can also use background-image with a URL */
+    /* background-image: url('path_to_your_background_image.jpg'); */
+}

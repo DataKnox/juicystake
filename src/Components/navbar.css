@@ -1,0 +1,37 @@
+.navbar {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 0;
+    padding: 20px 0;
+    background-color: #ffdd57;
+    /* Keep the yellow background to match the website theme */
+}
+
+.navbar button {
+    margin: 0 10px;
+    padding: 15px 30px;
+    /* Increase padding for bigger buttons */
+    font-size: 2em;
+    /* Increase font size for better readability */
+    border: 2px solid;
+    /* Add border to maintain button size on hover */
+    border-radius: 5px;
+    background-color: #ffdd57;
+    /* Button background color to match navbar */
+    color: #333;
+    /* Dark text color for contrast */
+    cursor: pointer;
+    transition: all 0.3s ease;
+    /* Smooth transition for background and border color */
+    font-weight: bold;
+    /* Make text bold */
+}
+
+.navbar button:hover {
+    background-color: #fff;
+    /* White background on hover */
+    color: #333;
+    /* Keep text color consistent */
+    border-color: #333;
+    /* Add a subtle border on hover */
+}

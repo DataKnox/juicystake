@@ -1,0 +1,28 @@
+.tools-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    /* Set height to full viewport height */
+}
+
+.connect-wallet-button {
+    background-color: #ffdd57;
+    /* Example background color */
+    color: #000;
+    /* Text color */
+    padding: 20px 40px;
+    /* Adjust padding */
+    font-size: 18px;
+    /* Adjust font size */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.with-background {
+    background-color: #ffdd57;
+    /* Example background color */
+    /* You can also use background-image with a URL */
+    /* background-image: url('path_to_your_background_image.jpg'); */
+}

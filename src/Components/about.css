@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&display=swap');
+
+
+.about-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 150px;
+    padding-bottom: 20px;
+    font-family: 'Amatic SC', cursive;
+    font-weight: bold;
+    font-size: 40px;
+
+    /* Add padding around the content */
+}
+
+.left-side,
+.right-side {
+    width: 45%;
+    /* Set width for each side */
+}
+
+.guac-image {
+    width: 100%;
+    height: auto;
+}
+
+.with-background {
+    background-color: #ffdd57;
+    /* Example background color */
+    /* You can also use background-image with a URL */
+    /* background-image: url('path_to_your_background_image.jpg'); */
+}

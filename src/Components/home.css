@@ -1,0 +1,13 @@
+/* HomeComponent.css */
+
+.home-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+/* Adjust padding and other styles as needed */
+
+/* Example styles for individual components */

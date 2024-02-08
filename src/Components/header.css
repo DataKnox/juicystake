@@ -1,0 +1,27 @@
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #ffdd57;
+    /* Yellow background */
+    padding: 20px;
+}
+
+.logo {
+    width: 100px;
+    /* Adjust based on your logo's size */
+    margin-right: 20px;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap');
+
+.welcome-box {
+    font-family: 'Permanent Marker', cursive;
+    font-size: 1.8em;
+    /* Adjust based on the font and your preference */
+    border: 2px solid #333;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #ffdd57;
+    color: #333;
+}

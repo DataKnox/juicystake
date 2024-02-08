@@ -1,0 +1,30 @@
+.footer-container {
+    background-color: #000;
+    /* Black background color */
+    color: #fff;
+    /* White text color */
+    padding: 20px;
+    /* Add padding around the content */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.back-to-top-button {
+    background-color: #fff;
+    /* White background color */
+    color: #000;
+    /* Black text color */
+    padding: 10px 20px;
+    /* Add padding */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.logo-image {
+    width: 100px;
+    /* Adjust width as needed */
+    height: auto;
+    /* Maintain aspect ratio */
+}

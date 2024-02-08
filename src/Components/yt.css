@@ -1,0 +1,14 @@
+.video-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    /* Set height to full viewport height */
+}
+
+.with-background {
+    background-color: #ffdd57;
+    /* Example background color */
+    /* You can also use background-image with a URL */
+    /* background-image: url('path_to_your_background_image.jpg'); */
+}

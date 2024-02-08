@@ -1,0 +1,127 @@
+@import url('https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&display=swap');
+
+.yields-tech-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 0;
+    background-color: #ffdd57;
+    position: relative;
+    padding-top: 20px;
+    /* Add padding on the top */
+    padding-bottom: 20px;
+    /* Add padding on the bottom */
+    /* Optionally, you can add padding on the left and right sides */
+    padding-left: 0;
+    /* Adjust as needed */
+    padding-right: 0;
+    /* Adjust as needed */
+    /* Yellow background to match other sections */
+}
+
+
+.image-section {
+    width: 50%;
+    height: 500px;
+    /* Adjust based on your preference */
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    /* Add this to ensure .open-24-7 positions correctly relative to the image */
+}
+
+.open-24-7 {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background-color: #ffdd00;
+    /* Neon green */
+    /* Other styles remain the same */
+
+    color: black;
+    border: black 2px solid;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* Adjust based on your needs */
+    position: absolute;
+    left: 40%;
+    bottom: -10px;
+    transform: translateX(-50%);
+    animation: rotate 6s linear infinite;
+}
+
+.come-on-in {
+    transform: rotate(15deg);
+    /* Rotates the text 30 degrees counter-clockwise */
+    transform-origin: center;
+    /* Ensures the text rotates around its center */
+    display: inline-block;
+    text-align: right;
+    /* or 'block' depending on your layout needs */
+    /* Additional styling here */
+}
+
+@media (max-width: 600px) {
+    .come-on-in {
+        transform: rotate(-20deg);
+        /* A slighter angle for smaller screens */
+        font-size: smaller;
+        /* Adjust font size for smaller screens */
+    }
+}
+
+
+
+.text-section {
+    width: 50%;
+    padding: 0px;
+    font-family: 'Amatic SC', cursive;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: left;
+}
+
+
+
+
+.text-section h2 {
+    font-size: 3.2em;
+    /* Increase font size for "Come on in..." */
+}
+
+.open-24-7 span {
+    font-size: 3.4em;
+    text-align: right;
+    /* Increase font size for "Open 24/7" */
+}
+
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@media (max-width: 768px) {
+    .yields-tech-container {
+        flex-direction: column;
+    }
+
+    .image-section,
+    .text-section {
+        width: 100%;
+    }
+
+    .open-24-7 {
+        right: 5%;
+        /* Adjust for smaller layout */
+        bottom: -50px;
+        /* Adjust to position correctly on smaller screens */
+    }
+}
