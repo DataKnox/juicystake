@@ -2,8 +2,10 @@
 
 .yields-tech-container {
     display: flex;
+    flex-direction: row;
     align-items: center;
-    justify-content: center;
+    width: 50%;
+    justify-content: space-between;
     margin: 0 0;
     background-color: #ffdd57;
     position: relative;
@@ -17,16 +19,21 @@
     padding-right: 0;
     /* Adjust as needed */
     /* Yellow background to match other sections */
+    border: 2px solid;
+    /* Add border to maintain button size on hover */
+    border-radius: 5px;
 }
 
 
 .image-section {
     width: 50%;
-    height: 500px;
+    max-width: 100%;
+    height: auto;
     /* Adjust based on your preference */
-    background-size: cover;
-    background-position: center;
+    background-size: 100%;
+    background-position: 100%;
     position: relative;
+    padding-right: 200px;
     /* Add this to ensure .open-24-7 positions correctly relative to the image */
 }
 

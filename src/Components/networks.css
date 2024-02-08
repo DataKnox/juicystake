@@ -12,6 +12,10 @@
     /* Example padding */
     padding-bottom: 90px;
     padding-top: 60px;
+    border: 2px solid;
+    /* Add border to maintain button size on hover */
+    border-radius: 5px;
+    width: 50%;
 }
 
 .network-row {

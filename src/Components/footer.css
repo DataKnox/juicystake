@@ -4,10 +4,12 @@
     color: #fff;
     /* White text color */
     padding: 20px;
+    margin: 0;
     /* Add padding around the content */
     display: flex;
     justify-content: space-between;
     align-items: center;
+    width: 100%;
 }
 
 .back-to-top-button {

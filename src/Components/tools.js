@@ -1,21 +1,14 @@
-// ToolsPage.js
-import React from 'react';
+import { WalletDisconnectButton, WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 import { useWallet } from '@solana/wallet-adapter-react';
-import './tools.css'; // Import your CSS file
-import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
-import { useConnection } from '@solana/wallet-adapter-react';
-
-const ToolsPage = () => {
-    const { connection } = useConnection();
-    const { publicKey, sendTransaction } = useWallet();
+function ToolsPage() {
+    const { publicKey } = useWallet();
 
     return (
         <div>
-            <WalletMultiButton />
+            <WalletMultiButton /> {/* Button to connect/disconnect wallet */}
+            {publicKey && <div>Connected with address: {publicKey.toBase58()}</div>}
         </div>
-    )
+    );
 }
-
-
 
 export default ToolsPage;
