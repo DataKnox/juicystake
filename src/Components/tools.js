@@ -3,42 +3,107 @@ import { useWallet } from '@solana/wallet-adapter-react';
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 import { Connection, PublicKey, clusterApiUrl, StakeProgram } from '@solana/web3.js';
 import './tools.css'; // Your CSS file for styling
-
+import StakePopup from './stakePopup';
+import handleStake from './handleStake';
 function ToolsPage() {
-    const { publicKey, connected } = useWallet();
+    const { publicKey, connected, sendTransaction } = useWallet();
     const [stakeAccounts, setStakeAccounts] = useState([]);
+    const [isStakePopupVisible, setIsStakePopupVisible] = useState(false);
+    const [refreshData, setRefreshData] = useState(false);
+    const walletContext = useWallet();
+    const connection = new Connection('http://202.8.8.177:8899', 'confirmed');
+
+
+    const handleStakeSubmission = async (amountSOL) => {
+        if (!publicKey || !walletContext.connected) {
+            console.log("Wallet is not connected");
+            return;
+        }
+
+        // Assuming the payer, stakeAuthority, and withdrawAuthority are all the user's wallet
+        const stakeAuthority = publicKey;
+        const withdrawAuthority = publicKey;
+
+        // Convert amountSOL to lamports within handleStake if needed or here
+        await handleStake(connection, walletContext, amountSOL, stakeAuthority, withdrawAuthority, () => {
+            setRefreshData(prev => !prev); // Toggle refreshData state to trigger re-fetch
+        });
+    };
+
+
 
     useEffect(() => {
         if (!publicKey) return;
+
+        async function fetchValidatorFriendlyName(voteAccount) {
+            const url = `https://api.solana.fm/v0/accounts/${voteAccount}`;
+
+            try {
+                const response = await fetch(url, {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                // Check if the status is "Success" and ensure the friendlyName exists
+                if (data.status === "Success" && data.result && data.result.data && data.result.data.friendlyName) {
+                    return data.result.data.friendlyName; // This will be the validator's friendly name
+                } else {
+                    throw new Error('Validator friendly name not found in the response');
+                }
+            } catch (error) {
+                console.error("Failed to fetch validator friendly name:", error);
+                return null; // Or handle the error as appropriate for your app
+            }
+        }
 
         const fetchStakeAccounts = async () => {
             try {
                 const connection = new Connection('http://202.8.8.177:8899', 'confirmed');
                 const accounts = await connection.getParsedProgramAccounts(
-                    StakeProgram.programId, // This is the public key for the Stake Program
-                    {
-                        filters: [{ dataSize: 200 }, { memcmp: { offset: 12, bytes: publicKey.toBase58() } }],
-                    }
+                    StakeProgram.programId, {
+                    filters: [{ dataSize: 200 }, { memcmp: { offset: 12, bytes: publicKey.toBase58() } }],
+                }
                 );
 
-                const stakeAccountsInfo = accounts.map(account => {
-                    const accountInfo = account.account.data.parsed.info;
+                const currentEpochInfo = await connection.getEpochInfo();
+
+                const stakeAccountsPromises = accounts.map(async (account) => {
+                    const { activationEpoch, deactivationEpoch } = account.account.data.parsed.info.stake.delegation;
+                    let status = "Deactivated";
+                    if (activationEpoch < currentEpochInfo.epoch && (deactivationEpoch === 'undefined' || deactivationEpoch > currentEpochInfo.epoch)) {
+                        status = "Activated";
+                    } else if (activationEpoch >= currentEpochInfo.epoch) {
+                        status = "Activating";
+                    }
+
+                    const voter = account.account.data.parsed.info.stake.delegation.voter;
+                    const validatorName = await fetchValidatorFriendlyName(voter); // Await the promise to resolve
                     return {
-                        balance: account.account.lamports / 1e9 + ' SOL', // Converting lamports to SOL
-                        validatorName: 'Validator Name Placeholder', // You might need another service or method to map validator pubkey to name
-                        id: account.pubkey.toString(),
-                        activationStatus: accountInfo.stake.delegation.activationEpoch,
+                        balance: account.account.lamports / 1e9 + ' SOL',
+                        validatorName: validatorName || 'Unknown', // Fallback to 'Unknown' if null is returned
+                        id: account.pubkey.toString().slice(0, 5) + '...' + account.pubkey.toString().slice(-4), // Truncate the pubkey for display
+                        activationStatus: status,
                     };
                 });
 
-                setStakeAccounts(stakeAccountsInfo);
+                // Wait for all promises to resolve
+                const resolvedStakeAccounts = await Promise.all(stakeAccountsPromises);
+                setStakeAccounts(resolvedStakeAccounts);
             } catch (error) {
                 console.error('Error fetching stake accounts:', error);
             }
         };
 
         fetchStakeAccounts();
-    }, [publicKey, connected]); // Re-run when publicKey or connected status changes
+    }, [publicKey, connected, refreshData]); // Re-run when publicKey or connected status changes
 
     if (!connected) {
         return (
@@ -50,6 +115,13 @@ function ToolsPage() {
 
     return (
         <div className="stake-accounts-container">
+            <button onClick={() => setIsStakePopupVisible(true)}>Stake with Juicy Stake</button>
+            {isStakePopupVisible && (
+                <StakePopup
+                    onClose={() => setIsStakePopupVisible(false)}
+                    onSubmit={handleStakeSubmission}
+                />
+            )}
             <table>
                 <thead>
                     <tr>
