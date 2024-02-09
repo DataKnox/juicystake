@@ -6,13 +6,32 @@ import './tools.css'; // Your CSS file for styling
 import StakePopup from './stakePopup';
 import handleStake from './handleStake';
 import handleDeactivateStakeAccount from './handleUnstake';
+import MergePopup from './mergepopup';
+import mergeStakeAccounts from './handleMerge';
 function ToolsPage() {
     const { publicKey, connected, sendTransaction } = useWallet();
     const [stakeAccounts, setStakeAccounts] = useState([]);
     const [isStakePopupVisible, setIsStakePopupVisible] = useState(false);
     const [refreshData, setRefreshData] = useState(false);
+    const [isMergePopupVisible, setIsMergePopupVisible] = useState(false);
+    const [selectedAccountIdForMerge, setSelectedAccountIdForMerge] = useState(null);
+
     const walletContext = useWallet();
     const connection = new Connection('http://202.8.8.177:8899', 'confirmed');
+
+    const handleMergeSubmission = async (mergeWithAccountId) => {
+        // Your existing logic here to call mergeStakeAccounts
+        await mergeStakeAccounts(
+            connection,
+            walletContext, // Make sure you pass the correct wallet object
+            selectedAccountIdForMerge,
+            mergeWithAccountId,
+            () => {
+                setRefreshData(prev => !prev); // Trigger re-fetch
+                setIsMergePopupVisible(false); // Close the popup
+            }
+        );
+    };
 
     const handleUnstakeSubmission = async (stakeAccountId) => {
         if (!publicKey || !walletContext.connected) {
@@ -156,7 +175,19 @@ function ToolsPage() {
                                 {/* Placeholders for actions */}
                                 <button>Instant Unstake</button>
                                 <button onClick={() => handleUnstakeSubmission(account.id)}>Deactivate</button>
-                                <button>Merge</button>
+                                <button onClick={() => {
+                                    setSelectedAccountIdForMerge(account.id);
+                                    setIsMergePopupVisible(true);
+                                }}>Merge</button>
+                                {isMergePopupVisible && (
+                                    <MergePopup
+                                        stakeAccounts={stakeAccounts}
+                                        onClose={() => setIsMergePopupVisible(false)}
+                                        onMergeSelected={handleMergeSubmission}
+                                        selectedAccountId={selectedAccountIdForMerge}
+                                        status={stakeAccounts.find(account => account.id === selectedAccountIdForMerge)?.activationStatus}
+                                    />
+                                )}
                                 <button>Split</button>
                                 <button>Send</button>
                             </td>
@@ -164,7 +195,7 @@ function ToolsPage() {
                     ))}
                 </tbody>
             </table>
-        </div>
+        </div >
     );
 }
 
