@@ -1,4 +1,4 @@
-import { Keypair, PublicKey, Authorized, LAMPORTS_PER_SOL, StakeProgram, Transaction, sendAndConfirmTransaction } from '@solana/web3.js';
+import { Keypair, PublicKey, Authorized, LAMPORTS_PER_SOL, StakeProgram, Transaction } from '@solana/web3.js';
 
 
 async function handleStake(solanaConnection, wallet, stakeAmountSOL, stakeAuthority, withdrawAuthority, onSuccessfulTransaction) {
@@ -19,7 +19,6 @@ async function handleStake(solanaConnection, wallet, stakeAmountSOL, stakeAuthor
     }
 
     // Convert SOL to lamports
-    const stakeAmountLamports = stakeAmountSOL * LAMPORTS_PER_SOL;
     // Create a new stake account
     const newStakeAccount = Keypair.generate();
     const { blockhash } = await solanaConnection.getRecentBlockhash();

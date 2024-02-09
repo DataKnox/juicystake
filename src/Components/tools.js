@@ -5,6 +5,7 @@ import { Connection, PublicKey, clusterApiUrl, StakeProgram } from '@solana/web3
 import './tools.css'; // Your CSS file for styling
 import StakePopup from './stakePopup';
 import handleStake from './handleStake';
+import handleDeactivateStakeAccount from './handleUnstake';
 function ToolsPage() {
     const { publicKey, connected, sendTransaction } = useWallet();
     const [stakeAccounts, setStakeAccounts] = useState([]);
@@ -13,6 +14,16 @@ function ToolsPage() {
     const walletContext = useWallet();
     const connection = new Connection('http://202.8.8.177:8899', 'confirmed');
 
+    const handleUnstakeSubmission = async (stakeAccountId) => {
+        if (!publicKey || !walletContext.connected) {
+            console.log("Wallet is not connected");
+            return;
+        }
+
+        await handleDeactivateStakeAccount(stakeAccountId, walletContext, connection, () => {
+            setRefreshData(prev => !prev); // Toggle refreshData state to trigger re-fetch
+        });
+    };
 
     const handleStakeSubmission = async (amountSOL) => {
         if (!publicKey || !walletContext.connected) {
@@ -77,10 +88,12 @@ function ToolsPage() {
 
                 const stakeAccountsPromises = accounts.map(async (account) => {
                     const { activationEpoch, deactivationEpoch } = account.account.data.parsed.info.stake.delegation;
+                    console.log('activationEpoch', activationEpoch);
+                    console.log('deactivationEpoch', deactivationEpoch);
                     let status = "Deactivated";
                     if (activationEpoch < currentEpochInfo.epoch && (deactivationEpoch === 'undefined' || deactivationEpoch > currentEpochInfo.epoch)) {
                         status = "Activated";
-                    } else if (activationEpoch >= currentEpochInfo.epoch) {
+                    } else if (activationEpoch >= currentEpochInfo.epoch && (deactivationEpoch === 'undefined' || deactivationEpoch > currentEpochInfo.epoch)) {
                         status = "Activating";
                     }
 
@@ -89,7 +102,7 @@ function ToolsPage() {
                     return {
                         balance: account.account.lamports / 1e9 + ' SOL',
                         validatorName: validatorName || 'Unknown', // Fallback to 'Unknown' if null is returned
-                        id: account.pubkey.toString().slice(0, 5) + '...' + account.pubkey.toString().slice(-4), // Truncate the pubkey for display
+                        id: account.pubkey.toString(), // Truncate the pubkey for display
                         activationStatus: status,
                     };
                 });
@@ -142,7 +155,7 @@ function ToolsPage() {
                             <td>
                                 {/* Placeholders for actions */}
                                 <button>Instant Unstake</button>
-                                <button>Deactivate</button>
+                                <button onClick={() => handleUnstakeSubmission(account.id)}>Deactivate</button>
                                 <button>Merge</button>
                                 <button>Split</button>
                                 <button>Send</button>
