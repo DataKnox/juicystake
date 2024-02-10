@@ -31,10 +31,10 @@ const handleDeactivateStakeAccount = async (stakeAccountId, wallet, connection, 
             stakePubkey: stakeAccountPubkey,
             authorizedPubkey: wallet.publicKey, // Assuming the wallet is the staker authority
         });
-
+        const blockhashDetails = await connection.getRecentBlockhash();
         transaction.add(deactivateStakeInstruction);
         transaction.feePayer = wallet.publicKey;
-        transaction.recentBlockhash = (await connection.getRecentBlockhash()).blockhash;
+        transaction.recentBlockhash = blockhashDetails.blockhash;
 
         // Sign and send the transaction
         const signedTransaction = await wallet.signTransaction(transaction);
