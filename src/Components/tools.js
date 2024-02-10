@@ -8,6 +8,8 @@ import handleStake from './handleStake';
 import handleDeactivateStakeAccount from './handleUnstake';
 import MergePopup from './mergepopup';
 import mergeStakeAccounts from './handleMerge';
+import TransferPopup from './sendPopup';
+import authorizeNewStakeAuthority from './handleSend';
 function ToolsPage() {
     const { publicKey, connected, sendTransaction } = useWallet();
     const [stakeAccounts, setStakeAccounts] = useState([]);
@@ -15,9 +17,44 @@ function ToolsPage() {
     const [refreshData, setRefreshData] = useState(false);
     const [isMergePopupVisible, setIsMergePopupVisible] = useState(false);
     const [selectedAccountIdForMerge, setSelectedAccountIdForMerge] = useState(null);
+    const [isTransferPopupVisible, setIsTransferPopupVisible] = useState(false);
+    const [selectedStakeAccountForTransfer, setSelectedStakeAccountForTransfer] = useState(null);
 
     const walletContext = useWallet();
     const connection = new Connection('http://202.8.8.177:8899', 'confirmed');
+
+    // Example update for handleTransferSubmission
+
+    const handleTransferSubmission = async (targetAddress) => {
+        if (!publicKey || !walletContext.connected) {
+            console.log("Wallet is not connected");
+            return;
+        }
+
+        if (!selectedStakeAccountForTransfer) {
+            console.log("No stake account selected for transfer");
+            return;
+        }
+
+        // Logic to transfer the stake account to the targetAddress
+        try {
+            // Ensure transferStakeAccount is defined to accept these parameters
+            await authorizeNewStakeAuthority(
+                connection,
+                walletContext,
+                selectedStakeAccountForTransfer, // The public key of the stake account to transfer
+                targetAddress,
+                () => {
+                    setRefreshData(prev => !prev); // Assuming you want to refresh data after transfer
+                    setIsTransferPopupVisible(false);  // The target wallet address provided from the popup
+                });
+            console.log('Transferring stake account to', targetAddress);
+            // Close the popup
+        } catch (error) {
+            console.error('Error transferring stake account:', error);
+        }
+    };
+
 
     const handleMergeSubmission = async (mergeWithAccountId) => {
         // Your existing logic here to call mergeStakeAccounts
@@ -189,7 +226,17 @@ function ToolsPage() {
                                     />
                                 )}
                                 <button>Split</button>
-                                <button>Send</button>
+                                <button onClick={() => {
+                                    setSelectedStakeAccountForTransfer(account.id);
+                                    setIsTransferPopupVisible(true);
+                                }}>Send</button>
+                                {isTransferPopupVisible && (
+                                    <TransferPopup
+                                        onClose={() => setIsTransferPopupVisible(false)}
+                                        onSubmit={handleTransferSubmission}
+                                    />
+                                )}
+
                             </td>
                         </tr>
                     ))}
