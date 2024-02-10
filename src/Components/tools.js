@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
-import { Connection, PublicKey, clusterApiUrl, StakeProgram } from '@solana/web3.js';
+import { Connection, StakeProgram } from '@solana/web3.js';
 import './tools.css'; // Your CSS file for styling
 import StakePopup from './stakePopup';
 import handleStake from './handleStake';
@@ -11,7 +11,7 @@ import mergeStakeAccounts from './handleMerge';
 import TransferPopup from './sendPopup';
 import authorizeNewStakeAuthority from './handleSend';
 function ToolsPage() {
-    const { publicKey, connected, sendTransaction } = useWallet();
+    const { publicKey, connected } = useWallet();
     const [stakeAccounts, setStakeAccounts] = useState([]);
     const [isStakePopupVisible, setIsStakePopupVisible] = useState(false);
     const [refreshData, setRefreshData] = useState(false);
@@ -22,8 +22,6 @@ function ToolsPage() {
 
     const walletContext = useWallet();
     const connection = new Connection('http://202.8.8.177:8899', 'confirmed');
-
-    // Example update for handleTransferSubmission
 
     const handleTransferSubmission = async (targetAddress) => {
         if (!publicKey || !walletContext.connected) {
@@ -36,9 +34,7 @@ function ToolsPage() {
             return;
         }
 
-        // Logic to transfer the stake account to the targetAddress
         try {
-            // Ensure transferStakeAccount is defined to accept these parameters
             await authorizeNewStakeAuthority(
                 connection,
                 walletContext,
@@ -49,7 +45,6 @@ function ToolsPage() {
                     setIsTransferPopupVisible(false);  // The target wallet address provided from the popup
                 });
             console.log('Transferring stake account to', targetAddress);
-            // Close the popup
         } catch (error) {
             console.error('Error transferring stake account:', error);
         }
@@ -57,7 +52,6 @@ function ToolsPage() {
 
 
     const handleMergeSubmission = async (mergeWithAccountId) => {
-        // Your existing logic here to call mergeStakeAccounts
         await mergeStakeAccounts(
             connection,
             walletContext, // Make sure you pass the correct wallet object
@@ -87,11 +81,9 @@ function ToolsPage() {
             return;
         }
 
-        // Assuming the payer, stakeAuthority, and withdrawAuthority are all the user's wallet
         const stakeAuthority = publicKey;
         const withdrawAuthority = publicKey;
 
-        // Convert amountSOL to lamports within handleStake if needed or here
         await handleStake(connection, walletContext, amountSOL, stakeAuthority, withdrawAuthority, () => {
             setRefreshData(prev => !prev); // Toggle refreshData state to trigger re-fetch
         });
@@ -163,7 +155,6 @@ function ToolsPage() {
                     };
                 });
 
-                // Wait for all promises to resolve
                 const resolvedStakeAccounts = await Promise.all(stakeAccountsPromises);
                 setStakeAccounts(resolvedStakeAccounts);
             } catch (error) {

@@ -1,4 +1,3 @@
-// mergeStakeAccounts.js
 import { PublicKey, StakeProgram, Transaction, sendAndConfirmTransaction } from '@solana/web3.js';
 
 const mergeStakeAccounts = async (connection, wallet, sourceStakeAccountId, destinationStakeAccountId, onSuccessfulTransaction) => {
@@ -46,8 +45,6 @@ const mergeStakeAccounts = async (connection, wallet, sourceStakeAccountId, dest
             console.error("Wallet not connected or signTransaction method not available.");
             return;
         }
-
-        //console.log(transaction, wallet.publicKey, sourceStakeAccountPubkey, destinationStakeAccountPubkey);
 
         const signedTransaction = await wallet.signTransaction(transaction);
         const signature = await connection.sendRawTransaction(signedTransaction.serialize());

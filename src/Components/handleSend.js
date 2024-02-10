@@ -10,7 +10,6 @@ import { Connection, PublicKey, StakeProgram, Transaction, StakeAuthorizationLay
  * @param {Function} onSuccessfulTransaction - Callback function to execute on successful transaction.
  */
 async function authorizeNewStakeAuthority(connection, wallet, stakeAccountPubkeyStr, targetAddressStr, onSuccessfulTransaction) {
-    // Utility function to check transaction status
     async function checkTransactionStatus(connection, signature, timeout = 60000) {
         const startTime = Date.now();
         while (Date.now() - startTime < timeout) {
@@ -30,28 +29,27 @@ async function authorizeNewStakeAuthority(connection, wallet, stakeAccountPubkey
     const stakeAccountPubkey = new PublicKey(stakeAccountPubkeyStr);
     const targetAddress = new PublicKey(targetAddressStr);
 
-    // Create a transaction
     let transaction = new Transaction();
 
-    // Define StakeAuthorizationType for Staker or Withdrawer
-    // For example, to authorize a new Staker, the index might be 0.
-    // Ensure to use the correct index as per your requirement (e.g., 0 for Staker, 1 for Withdrawer)
     const stakeAuthorizationType = {
         index: 0 // Assuming we are setting a new Staker; adjust the index as needed
     };
 
-    // Create a StakeProgram.authorize instruction
-    const authorizeInstruction = StakeProgram.authorize({
+    const authorizeStakerInstruction = StakeProgram.authorize({
         stakePubkey: stakeAccountPubkey,
         authorizedPubkey: wallet.publicKey, // The current authority's public key
         newAuthorizedPubkey: targetAddress, // The new authority's public key
         stakeAuthorizationType: stakeAuthorizationType, // Use the defined authorization type
     });
 
-    // Add the instruction to the transaction
-    transaction.add(authorizeInstruction);
-
-    // Sign and send the transaction
+    transaction.add(authorizeStakerInstruction);
+    const authorizeWithdrawerInstruction = StakeProgram.authorize({
+        stakePubkey: stakeAccountPubkey,
+        authorizedPubkey: wallet.publicKey, // The current authority's public key
+        newAuthorizedPubkey: targetAddress, // The new authority's public key
+        stakeAuthorizationType: { index: 1 }, // Use the defined authorization type
+    });
+    transaction.add(authorizeWithdrawerInstruction);
     try {
         const { blockhash } = await connection.getRecentBlockhash();
         transaction.recentBlockhash = blockhash;
@@ -60,7 +58,6 @@ async function authorizeNewStakeAuthority(connection, wallet, stakeAccountPubkey
         const signedTransaction = await wallet.signTransaction(transaction);
         const transactionId = await connection.sendRawTransaction(signedTransaction.serialize());
 
-        // Check the status of the transaction
         checkTransactionStatus(connection, transactionId);
     } catch (error) {
         console.error("Error authorizing new stake authority:", error);
