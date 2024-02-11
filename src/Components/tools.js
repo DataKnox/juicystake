@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
-import { Connection, StakeProgram } from '@solana/web3.js';
+import { Connection, StakeProgram, VersionedTransaction } from '@solana/web3.js';
 import './tools.css'; // Your CSS file for styling
 import StakePopup from './stakePopup';
 import handleStake from './handleStake';
@@ -14,7 +14,7 @@ import SplitPopup from './splitPopup';
 import handleSplitStakeAccount from './handleSplit';
 import InstantUnstakePopup from './instantUnstakePopup';
 function ToolsPage() {
-    const { publicKey, connected, disconnect } = useWallet();
+    const { publicKey, connected, disconnect, signTransaction, sendTransaction } = useWallet();
     const [stakeAccounts, setStakeAccounts] = useState([]);
     const [isStakePopupVisible, setIsStakePopupVisible] = useState(false);
     const [refreshData, setRefreshData] = useState(false);
@@ -29,6 +29,45 @@ function ToolsPage() {
 
     const walletContext = useWallet();
     const connection = new Connection('http://202.8.8.177:8899', 'confirmed');
+
+    function base64ToUint8Array(base64) {
+        const raw = atob(base64);
+        const uint8Array = new Uint8Array(new ArrayBuffer(raw.length));
+        for (let i = 0; i < raw.length; i++) {
+            uint8Array[i] = raw.charCodeAt(i);
+        }
+        return uint8Array;
+    }
+
+
+    const handleSignAndSendTransaction = async (base64EncodedTransaction) => {
+        if (!publicKey || !signTransaction || !sendTransaction) {
+            console.error("Wallet is not connected");
+            return;
+        }
+
+        try {
+            // Decode the base64 encoded transaction into a VersionedTransaction
+
+            const uint8Array = base64ToUint8Array(base64EncodedTransaction);
+            const decodedTransaction = VersionedTransaction.deserialize(uint8Array);
+
+
+            // Use wallet adapter's signTransaction function if it supports VersionedTransaction
+            // Note: This step may vary based on the wallet and its adapter's support for VersionedTransaction
+            const signedTransaction = await signTransaction(decodedTransaction);
+
+            // Send the signed transaction to the Solana network
+            const signature = await connection.sendRawTransaction(signedTransaction.serialize());
+
+            // Await confirmation
+            await connection.confirmTransaction(signature, 'finalized');
+
+            console.log("Transaction successful with signature:", signature);
+        } catch (error) {
+            console.error("Error signing or sending transaction:", error);
+        }
+    };
 
 
     const handleInstantUnstakeSubmission = async (stakeAccountId, quote) => {
@@ -50,7 +89,7 @@ function ToolsPage() {
             feeAccounts: {
                 "So11111111111111111111111111111111111111112": "3MZHKUipHod8Gz9wt5pCB378SateAS84nTKr8yU3xFre"
             },
-            asLegacyTransaction: true
+            asLegacyTransaction: false
         };
         console.log('Submitting unstake request:', postData);
         try {
@@ -69,6 +108,8 @@ function ToolsPage() {
 
             const data = await response.json();
             console.log('Unstake submission response:', data);
+            const serializedTxn = data.unstakeTransaction
+            handleSignAndSendTransaction(serializedTxn);
             // Handle the response, such as updating the UI or showing a success message
             setIsInstantUnstakePopupVisible(false); // Assuming this closes the instant unstake popup
         } catch (error) {

@@ -1,0 +1,50 @@
+{
+    "route": {
+        "stakeAccInput": {
+            "stakePool": {
+                "outputToken": "J1toso1uCk3RLmjorhTtrVwY9HJ7X8V9yYac6Y7kGCPn",
+                "label": "Jito"
+            },
+            "inAmount": "24002282880",
+            "outAmount": "22041784046",
+            "additionalRentLamports": "0"
+        },
+        "jup": {
+            "marketInfos": [
+                {
+                    "id": "9K1R4DVYZjSH3JiegPfpWndp7RNjFzbtReQPHERoZar8",
+                    "label": "Meteora",
+                    "inputMint": "J1toso1uCk3RLmjorhTtrVwY9HJ7X8V9yYac6Y7kGCPn",
+                    "outputMint": "So11111111111111111111111111111111111111112",
+                    "inAmount": "22041784046",
+                    "outAmount": "23984910725",
+                    "notEnoughLiquidity": false,
+                    "priceImpactPct": 0.00016062402040695623,
+                    "lpFee": {
+                        "amount": "2204177",
+                        "mint": "So11111111111111111111111111111111111111112",
+                        "pct": 0.0001
+                    },
+                    "platformFee": {
+                        "amount": "7197632",
+                        "mint": "So11111111111111111111111111111111111111112",
+                        "pct": 0.03
+                    }
+                }
+            ],
+            "inAmount": "22041784046",
+            "outAmount": "23984910725",
+            "amount": "22041784046",
+            "otherAmountThreshold": "23960925815",
+            "swapMode": "ExactIn",
+            "priceImpactPct": 0.000160624020406952,
+            "slippageBps": 10
+        }
+    },
+    "stakeAccountPubkey": "EkQ3W3rakDbXvSri9LvSuTFhrSY4nfmb7SNLVxsh7Bgi",
+    "user": "7fayJEQfbLHZ4QXuv1vWLbFLsdJTE9a8woagyARMLrcS",
+    "feeAccounts": {
+        "So11111111111111111111111111111111111111112": "3MZHKUipHod8Gz9wt5pCB378SateAS84nTKr8yU3xFre"
+    },
+    "asLegacyTransaction": true
+}
