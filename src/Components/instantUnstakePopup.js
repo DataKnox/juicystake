@@ -30,7 +30,8 @@ function InstantUnstakePopup({ stakeAccount, onClose, onSubmit }) {
                 }
 
                 const data = await response.json();
-                setQuote(data[0].stakeAccInput); // Adjusted based on the updated response structure
+                console.log('Quote', data);
+                setQuote(data[0]); // Adjusted based on the updated response structure
             } catch (error) {
                 console.error(error);
                 // Handle the error appropriately in your UI
@@ -47,8 +48,9 @@ function InstantUnstakePopup({ stakeAccount, onClose, onSubmit }) {
     }
 
     // Calculate the unstake amount + rent returned and fee
-    const unstakeAmountPlusRent = (parseInt(quote.outAmount) + parseInt(quote.additionalRentLamports)) / 1e9;
-    const feeAmount = (parseInt(quote.inAmount) - parseInt(quote.outAmount)) / 1e9;
+    // Assuming quote now includes the entire object and stakeAccInput is a property of this object
+    const unstakeAmountPlusRent = (parseInt(quote.stakeAccInput.outAmount) + parseInt(quote.stakeAccInput.additionalRentLamports)) / 1e9;
+    const feeAmount = (parseInt(quote.stakeAccInput.inAmount) - parseInt(quote.stakeAccInput.outAmount)) / 1e9;
 
     return (
         <div className="instant-unstake-popup">
@@ -67,7 +69,7 @@ function InstantUnstakePopup({ stakeAccount, onClose, onSubmit }) {
                         </tr>
                     </tbody>
                 </table>
-                <button onClick={() => onSubmit(stakeAccount.id)}>Submit Unstake</button>
+                <button onClick={() => onSubmit(stakeAccount.id, quote)}>Submit Unstake</button>
             </div>
         </div>
     );

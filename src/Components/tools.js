@@ -14,7 +14,7 @@ import SplitPopup from './splitPopup';
 import handleSplitStakeAccount from './handleSplit';
 import InstantUnstakePopup from './instantUnstakePopup';
 function ToolsPage() {
-    const { publicKey, connected } = useWallet();
+    const { publicKey, connected, disconnect } = useWallet();
     const [stakeAccounts, setStakeAccounts] = useState([]);
     const [isStakePopupVisible, setIsStakePopupVisible] = useState(false);
     const [refreshData, setRefreshData] = useState(false);
@@ -31,13 +31,51 @@ function ToolsPage() {
     const connection = new Connection('http://202.8.8.177:8899', 'confirmed');
 
 
-    // Implement the Instant Unstake Submission Handler (this is just a placeholder)
-    const handleInstantUnstakeSubmission = async (stakeAccountId) => {
-        // Placeholder for your instant unstake logic
-        console.log("Instant unstaking for account:", stakeAccountId);
-        // You'll need to replace this with your actual instant unstake logic
-        setIsInstantUnstakePopupVisible(false); // Close the popup after submission
-    }
+    const handleInstantUnstakeSubmission = async (stakeAccountId, quote) => {
+        if (!publicKey || !walletContext.connected) {
+            console.log("Wallet is not connected");
+            return;
+        }
+        console.log("quote in handler", quote);
+        // Assuming quote is the first object from the array received from the API
+        const bestRoute = quote; // If quote is already the best route, use it directly
+
+        const postData = {
+            route: {
+                stakeAccInput: bestRoute.stakeAccInput,
+                jup: bestRoute.jup
+            },
+            stakeAccountPubkey: stakeAccountId,
+            user: walletContext.publicKey.toBase58(), // The user's public key as a string
+            feeAccounts: {
+                "So11111111111111111111111111111111111111112": "3MZHKUipHod8Gz9wt5pCB378SateAS84nTKr8yU3xFre"
+            },
+            asLegacyTransaction: true
+        };
+        console.log('Submitting unstake request:', postData);
+        try {
+            const response = await fetch('https://api.unstake.it/v1/unstake', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    // Add any other necessary headers, like authorization tokens, here
+                },
+                body: JSON.stringify(postData),
+            });
+
+            if (!response.ok) {
+                throw new Error(`Failed to submit unstake request: ${response.statusText}`);
+            }
+
+            const data = await response.json();
+            console.log('Unstake submission response:', data);
+            // Handle the response, such as updating the UI or showing a success message
+            setIsInstantUnstakePopupVisible(false); // Assuming this closes the instant unstake popup
+        } catch (error) {
+            console.error('Error submitting unstake request:', error);
+            // Handle the error, for example by showing an error message in the UI
+        }
+    };
 
     const handleSplitSubmission = async (amountSOL) => {
         // Assuming you have a function to handle the split
@@ -213,6 +251,14 @@ function ToolsPage() {
                     onSubmit={handleStakeSubmission}
                 />
             )}
+            <div className="wallet-actions">
+                <WalletMultiButton />
+                {connected && (
+                    <button onClick={disconnect} className="disconnect-button">
+                        Disconnect Wallet
+                    </button>
+                )}
+            </div>
             <table>
                 <thead>
                     <tr>
@@ -240,7 +286,7 @@ function ToolsPage() {
                                     <InstantUnstakePopup
                                         stakeAccount={selectedStakeAccountForInstantUnstake}
                                         onClose={() => setIsInstantUnstakePopupVisible(false)}
-                                        onSubmit={handleInstantUnstakeSubmission}
+                                        onSubmit={(stakeAccountId, quote) => handleInstantUnstakeSubmission(stakeAccountId, quote)}
                                     />
                                 )}
                                 <button onClick={() => handleUnstakeSubmission(account.id)}>Deactivate</button>
