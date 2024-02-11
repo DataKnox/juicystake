@@ -28,17 +28,14 @@ const handleSplitStakeAccount = async (connection, walletContext, stakeAccountTo
     }
 
     const newStakeAccount = Keypair.generate();
-    // Check if the account already exists
     const accountInfo = await connection.getAccountInfo(newStakeAccount.publicKey);
     if (accountInfo !== null) {
         throw new Error("An account with the generated public key already exists.");
     }
 
 
-    // Calculate the rent-exempt balance for the stake account
     const rentExemptBalance = await connection.getMinimumBalanceForRentExemption(StakeProgram.space);
 
-    // Calculate the amount in lamports to split
     const lamportsToSplit = amountSOL * LAMPORTS_PER_SOL;
 
     if (lamportsToSplit <= rentExemptBalance) {
@@ -46,18 +43,8 @@ const handleSplitStakeAccount = async (connection, walletContext, stakeAccountTo
         return;
     }
 
-    // Create a transaction
     let transaction = new Transaction();
 
-    // Add instruction to create the new stake account
-    // transaction.add(SystemProgram.createAccount({
-    //     fromPubkey: walletContext.publicKey,
-    //     newAccountPubkey: newStakeAccount.publicKey,
-    //     lamports: lamportsToSplit,
-    //     space: StakeProgram.space,
-    //     programId: StakeProgram.programId,
-    // }));
-    // Add the split instruction
     transaction.add(StakeProgram.split({
         stakePubkey: new PublicKey(stakeAccountToSplit),
         authorizedPubkey: walletContext.publicKey,
@@ -65,18 +52,14 @@ const handleSplitStakeAccount = async (connection, walletContext, stakeAccountTo
         lamports: lamportsToSplit
     }));
 
-    // Sign the transaction with the wallet and the new stake account
     let { blockhash } = await connection.getRecentBlockhash();
     transaction.recentBlockhash = blockhash;
     transaction.feePayer = walletContext.publicKey;
     console.log(transaction)
-    // Wallet signs the transaction
     let signedTransaction = await walletContext.signTransaction(transaction);
 
-    // Sign the transaction with the new stake account's secret key
     signedTransaction.partialSign(newStakeAccount);
 
-    // Send the transaction
     let txid = await connection.sendRawTransaction(signedTransaction.serialize());
 
     // Confirm the transaction
