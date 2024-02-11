@@ -10,6 +10,8 @@ import MergePopup from './mergepopup';
 import mergeStakeAccounts from './handleMerge';
 import TransferPopup from './sendPopup';
 import authorizeNewStakeAuthority from './handleSend';
+import SplitPopup from './splitPopup';
+import handleSplitStakeAccount from './handleSplit';
 function ToolsPage() {
     const { publicKey, connected } = useWallet();
     const [stakeAccounts, setStakeAccounts] = useState([]);
@@ -19,9 +21,27 @@ function ToolsPage() {
     const [selectedAccountIdForMerge, setSelectedAccountIdForMerge] = useState(null);
     const [isTransferPopupVisible, setIsTransferPopupVisible] = useState(false);
     const [selectedStakeAccountForTransfer, setSelectedStakeAccountForTransfer] = useState(null);
+    const [isSplitPopupVisible, setIsSplitPopupVisible] = useState(false);
+    const [selectedStakeAccountForSplit, setSelectedStakeAccountForSplit] = useState(null);
 
     const walletContext = useWallet();
     const connection = new Connection('http://202.8.8.177:8899', 'confirmed');
+
+
+    const handleSplitSubmission = async (amountSOL) => {
+        // Assuming you have a function to handle the split
+        await handleSplitStakeAccount(
+            connection,
+            walletContext,
+            selectedStakeAccountForSplit, // The public key of the stake account to split
+            amountSOL, // Amount to move to the new stake account
+            () => {
+                setRefreshData(prev => !prev); // Assuming you want to refresh data after split
+                setIsSplitPopupVisible(false); // Close the popup
+            }
+        );
+    };
+
 
     const handleTransferSubmission = async (targetAddress) => {
         if (!publicKey || !walletContext.connected) {
@@ -216,7 +236,17 @@ function ToolsPage() {
                                         status={stakeAccounts.find(account => account.id === selectedAccountIdForMerge)?.activationStatus}
                                     />
                                 )}
-                                <button>Split</button>
+                                <button onClick={() => {
+                                    setSelectedStakeAccountForSplit(account.id);
+                                    setIsSplitPopupVisible(true);
+                                }}>Split</button>
+                                {isSplitPopupVisible && (
+                                    <SplitPopup
+                                        onClose={() => setIsSplitPopupVisible(false)}
+                                        onSubmit={handleSplitSubmission}
+                                        balance={stakeAccounts.find(account => account.id === selectedStakeAccountForSplit)?.balance.replace(' SOL', '')}
+                                    />
+                                )}
                                 <button onClick={() => {
                                     setSelectedStakeAccountForTransfer(account.id);
                                     setIsTransferPopupVisible(true);
