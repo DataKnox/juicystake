@@ -7,9 +7,77 @@
     background-color: #ffdd57;
 }
 
+/* tools.css */
+
 .stake-accounts-container {
-    background-color: #ffdd57;
-    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    /* Adjust based on your layout needs */
+}
+
+.stake-button {
+    background-color: black;
+    height: 100px;
+    color: white;
+    font-size: 1.5rem;
+    /* Adjust size as needed */
+    /* Makes the button twice as high and 4 times as long */
+    font-family: 'CoolFont', sans-serif;
+    /* Replace 'CoolFont' with your actual font */
+    cursor: pointer;
+    border: none;
+    margin-bottom: 20px;
+    /* Space between this button and any other content */
+}
+
+/* tools.css */
+
+.tools-page-container {
+    /* Ensures the full page is a flex container, allows for overall layout control */
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.header {
+    /* Aligns items in a row at the top of the page */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    box-sizing: border-box;
+    /* Ensures padding doesn't add to the total width */
+}
+
+.stake-button {
+    background-color: black;
+    color: white;
+    font-size: 1.5rem;
+    padding: 10px 40px;
+    /* Adjust size as needed */
+    cursor: pointer;
+    font-family: 'Permanent Marker', cursive;
+    border: none;
+    /* Additional styling for the button as needed */
+}
+
+.wallet-actions {
+    /* Adjust as needed; already positioned to the right due to flexbox */
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    /* Adds some space between wallet button and disconnect button */
+}
+
+.disconnect-button {
+    background-color: #444;
+    color: white;
+    padding: 10px;
+    font-size: 1rem;
+    cursor: pointer;
+    border: none;
 }
 
 table {
@@ -32,8 +100,23 @@ td {
     font-family: 'Amatic SC', cursive;
     font-size: 30px;
     font-weight: bold;
+    border: 2px solid #333;
 }
 
 button {
     margin-right: 10px;
+    background-color: black;
+    color: white;
+    /* Adjust size as needed */
+    cursor: pointer;
+    font-family: 'Permanent Marker', cursive;
+    border: none;
+    /* Additional styling for the button as needed */
+
+}
+
+.stake-accounts-container button {
+    background-color: black !important;
+    color: white !important;
+    /* Other styles */
 }

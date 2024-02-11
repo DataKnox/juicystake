@@ -285,20 +285,20 @@ function ToolsPage() {
 
     return (
         <div className="stake-accounts-container">
-            <button onClick={() => setIsStakePopupVisible(true)}>Stake with Juicy Stake</button>
-            {isStakePopupVisible && (
-                <StakePopup
-                    onClose={() => setIsStakePopupVisible(false)}
-                    onSubmit={handleStakeSubmission}
-                />
-            )}
-            <div className="wallet-actions">
-                <WalletMultiButton />
-                {connected && (
-                    <button onClick={disconnect} className="disconnect-button">
-                        Disconnect Wallet
-                    </button>
+            <div className="header">
+                <button onClick={() => setIsStakePopupVisible(true)} className="stake-button">
+                    Stake SOL with Juicy Stake
+                </button>
+                {isStakePopupVisible && (
+                    <StakePopup
+                        onClose={() => setIsStakePopupVisible(false)}
+                        onSubmit={handleStakeSubmission}
+                    />
                 )}
+                <div className="wallet-actions">
+                    <WalletMultiButton />
+
+                </div>
             </div>
             <table>
                 <thead>
