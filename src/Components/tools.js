@@ -13,6 +13,8 @@ import authorizeNewStakeAuthority from './handleSend';
 import SplitPopup from './splitPopup';
 import handleSplitStakeAccount from './handleSplit';
 import InstantUnstakePopup from './instantUnstakePopup';
+import LiquidStakePopup from './liquidStakePopup';
+import handleLiquidStake from './handleLiquidStake';
 function ToolsPage() {
     const { publicKey, connected, disconnect, signTransaction, sendTransaction } = useWallet();
     const [stakeAccounts, setStakeAccounts] = useState([]);
@@ -26,6 +28,7 @@ function ToolsPage() {
     const [selectedStakeAccountForSplit, setSelectedStakeAccountForSplit] = useState(null);
     const [isInstantUnstakePopupVisible, setIsInstantUnstakePopupVisible] = useState(false); // State for Instant Unstake Popup visibility
     const [selectedStakeAccountForInstantUnstake, setSelectedStakeAccountForInstantUnstake] = useState(null); // State for selected stake account
+    const [isLiquidStakeVisible, setIsLiquidStakeVisible] = useState(false); // State for Liquid Stake Popup visibility
 
     const walletContext = useWallet();
     const connection = new Connection('http://202.8.8.177:8899', 'confirmed');
@@ -185,6 +188,20 @@ function ToolsPage() {
         });
     };
 
+    const handleLiquidStakeSubmission = async (amountSOL) => {
+        if (!publicKey || !walletContext.connected) {
+            console.log("Wallet is not connected");
+            return;
+        }
+
+        console.log("Submitting liquid stake request for", amountSOL, "SOL");
+        await handleLiquidStake(amountSOL, walletContext, connection, () => {
+            setRefreshData(prev => !prev); // Toggle refreshData state to trigger re-fetch
+        }
+        );
+
+    };
+
     const handleStakeSubmission = async (amountSOL) => {
         if (!publicKey || !walletContext.connected) {
             console.log("Wallet is not connected");
@@ -286,6 +303,13 @@ function ToolsPage() {
     return (
         <div className="stake-accounts-container">
             <div className="header">
+                {/* <button onClick={() => setIsLiquidStakeVisible(true)} className="stake-button">Liquid Stake 4 bSOL</button>
+                {isLiquidStakeVisible && (
+                    <LiquidStakePopup
+                        onClose={() => setIsLiquidStakeVisible(false)}
+                        onSubmit={handleLiquidStakeSubmission}
+                    />
+                )} */}
                 <button onClick={() => setIsStakePopupVisible(true)} className="stake-button">
                     Stake SOL with Juicy Stake
                 </button>

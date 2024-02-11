@@ -7,7 +7,8 @@ import './index.css'; // We will create this CSS file next for styling
 import App from './App';
 import ToolsPage from './Components/tools'; // Make sure you have this component created
 import HomePage from './Components/home'; // Make sure you have this component created
-
+import { Buffer } from 'buffer';
+window.Buffer = Buffer;
 // Find the root div in your HTML
 const rootElement = document.getElementById('root');
 const root = createRoot(rootElement);
