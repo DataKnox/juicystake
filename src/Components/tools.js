@@ -15,6 +15,7 @@ import handleSplitStakeAccount from './handleSplit';
 import InstantUnstakePopup from './instantUnstakePopup';
 import LiquidStakePopup from './liquidStakePopup';
 import handleLiquidStake from './handleLiquidStake';
+import handleLiquidStakeTransfer from './handleLiquidStakeTxfr';
 function ToolsPage() {
     const { publicKey, connected, disconnect, signTransaction, sendTransaction } = useWallet();
     const [stakeAccounts, setStakeAccounts] = useState([]);
@@ -29,7 +30,7 @@ function ToolsPage() {
     const [isInstantUnstakePopupVisible, setIsInstantUnstakePopupVisible] = useState(false); // State for Instant Unstake Popup visibility
     const [selectedStakeAccountForInstantUnstake, setSelectedStakeAccountForInstantUnstake] = useState(null); // State for selected stake account
     const [isLiquidStakeVisible, setIsLiquidStakeVisible] = useState(false); // State for Liquid Stake Popup visibility
-
+    const [selectedAccountforLiquidTransfer, setAccountForLiquidTransfer] = useState(null); // State for selected stake account
     const walletContext = useWallet();
     const connection = new Connection('http://202.8.8.177:8899', 'confirmed');
 
@@ -42,6 +43,16 @@ function ToolsPage() {
         return uint8Array;
     }
 
+    const handleLiquidStakeTransferSubmission = async (stakeAccountId) => {
+        if (!publicKey || !walletContext.connected) {
+            console.log("Wallet is not connected");
+            return;
+        }
+
+        await handleLiquidStakeTransfer(walletContext, stakeAccountId, connection, () => {
+            setRefreshData(prev => !prev); // Toggle refreshData state to trigger re-fetch
+        });
+    };
 
     const handleSignAndSendTransaction = async (base64EncodedTransaction) => {
         if (!publicKey || !signTransaction || !sendTransaction) {
@@ -311,7 +322,7 @@ function ToolsPage() {
                     />
                 )} */}
                 <button onClick={() => setIsStakePopupVisible(true)} className="stake-button">
-                    Stake SOL with Juicy Stake
+                    👉Click 2 Stake SOL with Juicy Stake👈
                 </button>
                 {isStakePopupVisible && (
                     <StakePopup
@@ -389,7 +400,7 @@ function ToolsPage() {
                                         onSubmit={handleTransferSubmission}
                                     />
                                 )}
-
+                                <button onClick={() => handleLiquidStakeTransferSubmission(account.id)}>Liquid Stake $bSOL</button>
                             </td>
                         </tr>
                     ))}
