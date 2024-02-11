@@ -12,6 +12,7 @@ import TransferPopup from './sendPopup';
 import authorizeNewStakeAuthority from './handleSend';
 import SplitPopup from './splitPopup';
 import handleSplitStakeAccount from './handleSplit';
+import InstantUnstakePopup from './instantUnstakePopup';
 function ToolsPage() {
     const { publicKey, connected } = useWallet();
     const [stakeAccounts, setStakeAccounts] = useState([]);
@@ -23,10 +24,20 @@ function ToolsPage() {
     const [selectedStakeAccountForTransfer, setSelectedStakeAccountForTransfer] = useState(null);
     const [isSplitPopupVisible, setIsSplitPopupVisible] = useState(false);
     const [selectedStakeAccountForSplit, setSelectedStakeAccountForSplit] = useState(null);
+    const [isInstantUnstakePopupVisible, setIsInstantUnstakePopupVisible] = useState(false); // State for Instant Unstake Popup visibility
+    const [selectedStakeAccountForInstantUnstake, setSelectedStakeAccountForInstantUnstake] = useState(null); // State for selected stake account
 
     const walletContext = useWallet();
     const connection = new Connection('http://202.8.8.177:8899', 'confirmed');
 
+
+    // Implement the Instant Unstake Submission Handler (this is just a placeholder)
+    const handleInstantUnstakeSubmission = async (stakeAccountId) => {
+        // Placeholder for your instant unstake logic
+        console.log("Instant unstaking for account:", stakeAccountId);
+        // You'll need to replace this with your actual instant unstake logic
+        setIsInstantUnstakePopupVisible(false); // Close the popup after submission
+    }
 
     const handleSplitSubmission = async (amountSOL) => {
         // Assuming you have a function to handle the split
@@ -221,7 +232,17 @@ function ToolsPage() {
                             <td>{account.activationStatus}</td>
                             <td>
                                 {/* Placeholders for actions */}
-                                <button>Instant Unstake</button>
+                                <button onClick={() => {
+                                    setSelectedStakeAccountForInstantUnstake(account);
+                                    setIsInstantUnstakePopupVisible(true);
+                                }}>Instant Unstake</button>
+                                {isInstantUnstakePopupVisible && (
+                                    <InstantUnstakePopup
+                                        stakeAccount={selectedStakeAccountForInstantUnstake}
+                                        onClose={() => setIsInstantUnstakePopupVisible(false)}
+                                        onSubmit={handleInstantUnstakeSubmission}
+                                    />
+                                )}
                                 <button onClick={() => handleUnstakeSubmission(account.id)}>Deactivate</button>
                                 <button onClick={() => {
                                     setSelectedAccountIdForMerge(account.id);
