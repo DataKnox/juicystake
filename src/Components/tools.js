@@ -17,7 +17,7 @@ import LiquidStakePopup from './liquidStakePopup';
 import handleLiquidStake from './handleLiquidStake';
 import handleLiquidStakeTransfer from './handleLiquidStakeTxfr';
 function ToolsPage() {
-    const { publicKey, connected, disconnect, signTransaction, sendTransaction } = useWallet();
+    const { publicKey, connected, signTransaction, sendTransaction } = useWallet();
     const [stakeAccounts, setStakeAccounts] = useState([]);
     const [isStakePopupVisible, setIsStakePopupVisible] = useState(false);
     const [refreshData, setRefreshData] = useState(false);
@@ -29,8 +29,8 @@ function ToolsPage() {
     const [selectedStakeAccountForSplit, setSelectedStakeAccountForSplit] = useState(null);
     const [isInstantUnstakePopupVisible, setIsInstantUnstakePopupVisible] = useState(false); // State for Instant Unstake Popup visibility
     const [selectedStakeAccountForInstantUnstake, setSelectedStakeAccountForInstantUnstake] = useState(null); // State for selected stake account
-    const [isLiquidStakeVisible, setIsLiquidStakeVisible] = useState(false); // State for Liquid Stake Popup visibility
-    const [selectedAccountforLiquidTransfer, setAccountForLiquidTransfer] = useState(null); // State for selected stake account
+    // const [isLiquidStakeVisible, setIsLiquidStakeVisible] = useState(false); // State for Liquid Stake Popup visibility
+    // const [selectedAccountforLiquidTransfer, setAccountForLiquidTransfer] = useState(null); // State for selected stake account
     const walletContext = useWallet();
     const connection = new Connection('http://202.8.8.177:8899', 'confirmed');
 
@@ -61,20 +61,13 @@ function ToolsPage() {
         }
 
         try {
-            // Decode the base64 encoded transaction into a VersionedTransaction
-
             const uint8Array = base64ToUint8Array(base64EncodedTransaction);
             const decodedTransaction = VersionedTransaction.deserialize(uint8Array);
 
 
-            // Use wallet adapter's signTransaction function if it supports VersionedTransaction
-            // Note: This step may vary based on the wallet and its adapter's support for VersionedTransaction
             const signedTransaction = await signTransaction(decodedTransaction);
-
-            // Send the signed transaction to the Solana network
             const signature = await connection.sendRawTransaction(signedTransaction.serialize());
 
-            // Await confirmation
             await connection.confirmTransaction(signature, 'finalized');
 
             console.log("Transaction successful with signature:", signature);
@@ -90,7 +83,6 @@ function ToolsPage() {
             return;
         }
         console.log("quote in handler", quote);
-        // Assuming quote is the first object from the array received from the API
         const bestRoute = quote; // If quote is already the best route, use it directly
 
         const postData = {
@@ -111,7 +103,6 @@ function ToolsPage() {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    // Add any other necessary headers, like authorization tokens, here
                 },
                 body: JSON.stringify(postData),
             });
@@ -124,16 +115,13 @@ function ToolsPage() {
             console.log('Unstake submission response:', data);
             const serializedTxn = data.unstakeTransaction
             handleSignAndSendTransaction(serializedTxn);
-            // Handle the response, such as updating the UI or showing a success message
             setIsInstantUnstakePopupVisible(false); // Assuming this closes the instant unstake popup
         } catch (error) {
             console.error('Error submitting unstake request:', error);
-            // Handle the error, for example by showing an error message in the UI
         }
     };
 
     const handleSplitSubmission = async (amountSOL) => {
-        // Assuming you have a function to handle the split
         await handleSplitStakeAccount(
             connection,
             walletContext,

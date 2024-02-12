@@ -50,7 +50,7 @@ function InstantUnstakePopup({ stakeAccount, onClose, onSubmit }) {
     // Calculate the unstake amount + rent returned and fee
     // Assuming quote now includes the entire object and stakeAccInput is a property of this object
     const unstakeAmountPlusRent = (parseInt(quote.stakeAccInput.outAmount) + parseInt(quote.stakeAccInput.additionalRentLamports)) / 1e9;
-    const feeAmount = (parseInt(quote.stakeAccInput.inAmount) - parseInt(quote.stakeAccInput.outAmount)) / 1e9;
+    const feeAmount = (parseInt(quote.jup.marketInfos[0].lpFee.amount) + parseInt(quote.jup.marketInfos[0].platformFee.amount)) / 1e9;
 
     return (
         <div className="instant-unstake-popup">
