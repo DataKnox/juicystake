@@ -16,6 +16,9 @@ import InstantUnstakePopup from './instantUnstakePopup';
 import LiquidStakePopup from './liquidStakePopup';
 import handleLiquidStake from './handleLiquidStake';
 import handleLiquidStakeTransfer from './handleLiquidStakeTxfr';
+import jslogo from '../Assets/jslogo.png';
+import { useNavigate } from 'react-router-dom';
+
 function ToolsPage() {
     const { publicKey, connected, signTransaction, sendTransaction } = useWallet();
     const [stakeAccounts, setStakeAccounts] = useState([]);
@@ -32,8 +35,8 @@ function ToolsPage() {
     // const [isLiquidStakeVisible, setIsLiquidStakeVisible] = useState(false); // State for Liquid Stake Popup visibility
     // const [selectedAccountforLiquidTransfer, setAccountForLiquidTransfer] = useState(null); // State for selected stake account
     const walletContext = useWallet();
-    const connection = new Connection('http://202.8.8.177:8899', 'confirmed');
-
+    const connection = new Connection('https://juicystake.io:8899', 'confirmed');
+    let navigate = useNavigate();
     function base64ToUint8Array(base64) {
         const raw = atob(base64);
         const uint8Array = new Uint8Array(new ArrayBuffer(raw.length));
@@ -251,7 +254,7 @@ function ToolsPage() {
 
         const fetchStakeAccounts = async () => {
             try {
-                const connection = new Connection('http://202.8.8.177:8899', 'confirmed');
+                const connection = new Connection('https://juicystake.io:8899', 'confirmed');
                 const accounts = await connection.getParsedProgramAccounts(
                     StakeProgram.programId, {
                     filters: [{ dataSize: 200 }, { memcmp: { offset: 12, bytes: publicKey.toBase58() } }],
@@ -302,6 +305,7 @@ function ToolsPage() {
     return (
         <div className="stake-accounts-container">
             <div className="header">
+                <img src={jslogo} alt="Logo" className="logo-img" onClick={() => navigate('/')} />
                 {/* <button onClick={() => setIsLiquidStakeVisible(true)} className="stake-button">Liquid Stake 4 bSOL</button>
                 {isLiquidStakeVisible && (
                     <LiquidStakePopup
@@ -338,7 +342,7 @@ function ToolsPage() {
                         <tr key={index}>
                             <td>{account.balance}</td>
                             <td>{account.validatorName}</td>
-                            <td>{account.id}</td>
+                            <td>{`${account.id.substring(0, 4)}...${account.id.substring(account.id.length - 4)}`}</td>
                             <td>{account.activationStatus}</td>
                             <td>
                                 {/* Placeholders for actions */}

@@ -32,11 +32,14 @@
 }
 
 .node-section {
+    width: 50%;
+    padding: 0px;
     font-family: 'Amatic SC', cursive;
     font-size: 40px;
-    flex: 1;
-    padding-right: 20px;
-    padding-left: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: right;
 }
 
 .image-section {
@@ -60,5 +63,46 @@
 
     100% {
         transform: translateX(-100%);
+    }
+}
+
+/* Media query for screens smaller than 768px */
+@media screen and (max-width: 768px) {
+    .section-wrapper {
+        flex-direction: column;
+        /* Stack children vertically */
+    }
+
+    .node-section,
+    .image-section {
+        padding: 0 15px;
+        /* Adjust padding for smaller screens */
+    }
+
+    .node-section {
+        font-size: 24px;
+        /* Adjust font size for readability on smaller screens */
+        padding-left: 15px;
+        /* Adjust padding to match the overall layout */
+        padding-right: 15px;
+        text-align: center;
+        /* Center text for a better visual appearance on small screens */
+    }
+
+    .scrolling-services {
+        padding: 20px;
+        font-size: 20px;
+        font-weight: bold;
+        margin-bottom: 20px;
+        white-space: nowrap;
+        animation: false;
+        /* Optionally, stop the scrolling animation on small screens for better readability */
+    }
+
+    .drinks-image {
+        width: auto;
+        /* Adjust width to auto to maintain aspect ratio */
+        max-height: 200px;
+        /* Set a max height for the image */
     }
 }

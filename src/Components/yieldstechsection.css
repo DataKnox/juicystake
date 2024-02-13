@@ -4,7 +4,8 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    width: 50%;
+    width: 100%;
+    height: 300px;
     justify-content: space-between;
     margin: 0 0;
     background-color: #ffdd57;
@@ -28,13 +29,14 @@
 .image-section {
     width: 50%;
     max-width: 100%;
-    height: auto;
-    /* Adjust based on your preference */
-    background-size: 100%;
-    background-position: 100%;
+    background-size: cover;
+    /* Cover the area of the div without losing aspect ratio */
+    background-position: center;
+    /* Center the background image */
+    height: 300px;
+    /* Set a fixed height or keep it auto if you prefer */
     position: relative;
-    padding-right: 200px;
-    /* Add this to ensure .open-24-7 positions correctly relative to the image */
+    padding-right: 0px;
 }
 
 .open-24-7 {
@@ -69,11 +71,43 @@
     /* Additional styling here */
 }
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
+    .yields-tech-container {
+        flex-direction: column;
+        /* Stack image and text vertically on small screens */
+        padding-bottom: 100px;
+        /* Increase padding to accommodate the shifted .open-24-7 */
+    }
+
+    .image-section {
+        width: 100%;
+        /* Full width */
+        height: 200px;
+        /* Adjust height for smaller screens */
+    }
+
+    .text-section {
+        width: 100%;
+        /* Full width */
+        text-align: center;
+        /* Center text for a better visual appearance */
+    }
+
+    .open-24-7 {
+        left: 50%;
+        /* Ensure it's centered below the image */
+        top: auto;
+        /* Reset top position */
+        bottom: -50px;
+        /* Position it outside the text section */
+        transform: translate(-50%, 0);
+        /* Correctly center it horizontally */
+    }
+
     .come-on-in {
-        transform: rotate(-20deg);
-        /* A slighter angle for smaller screens */
-        font-size: smaller;
+        transform: none;
+        /* Remove rotation for better readability */
+        font-size: 1.5em;
         /* Adjust font size for smaller screens */
     }
 }
@@ -112,23 +146,5 @@
 
     to {
         transform: rotate(360deg);
-    }
-}
-
-@media (max-width: 768px) {
-    .yields-tech-container {
-        flex-direction: column;
-    }
-
-    .image-section,
-    .text-section {
-        width: 100%;
-    }
-
-    .open-24-7 {
-        right: 5%;
-        /* Adjust for smaller layout */
-        bottom: -50px;
-        /* Adjust to position correctly on smaller screens */
     }
 }

@@ -17,6 +17,17 @@
     /* Adjust based on your layout needs */
 }
 
+.logo-img {
+    transform: scale(0.25);
+    transform-origin: top left;
+    margin: 10px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    cursor: pointer;
+}
+
+
 .stake-button {
     background-color: black;
     height: 100px;
@@ -119,4 +130,45 @@ button {
     background-color: black !important;
     color: white !important;
     /* Other styles */
+}
+
+/* Base styles here */
+
+/* Responsive adjustments */
+@media screen and (max-width: 768px) {
+
+    .wallet-connect-container,
+    .stake-accounts-container {
+        flex-direction: column;
+        justify-content: flex-start;
+        /* Adjust as needed for mobile */
+        padding: 20px;
+        /* Add some padding on smaller screens */
+    }
+
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+        /* Stack elements vertically */
+    }
+
+    .stake-button,
+    .disconnect-button,
+    table button {
+        font-size: 1.2rem;
+        /* Adjust font size for readability */
+        padding: 15px 30px;
+        /* Make buttons larger for easier tapping */
+    }
+
+    table {
+        font-size: 0.8rem;
+        /* Adjust table font size for mobile */
+    }
+
+    th,
+    td {
+        padding: 4px;
+        /* Adjust table cell padding */
+    }
 }
