@@ -1,9 +1,9 @@
 import * as solanaWeb3 from '@solana/web3.js';
 import * as solanaStakePool from '@solana/spl-stake-pool';
-import fetch from 'node-fetch';
+import { toast } from 'react-toastify';
 
-const { Connection, Transaction, Keypair, SystemProgram, PublicKey, LAMPORTS_PER_SOL, sendAndConfirmRawTransaction, TransactionInstruction } = solanaWeb3;
-const { getStakePoolAccount, updateStakePool, depositSol, depositStake, withdrawSol, withdrawStake, stakePoolInfo } = solanaStakePool;
+const { Transaction, SystemProgram, PublicKey } = solanaWeb3;
+const { depositStake } = solanaStakePool;
 
 async function handleLiquidStakeTransfer(walletContext, stakeAccountId, connection, onSuccessfulTransaction) {
     async function checkTransactionStatus(connection, signature, timeout = 60000) {
@@ -11,6 +11,16 @@ async function handleLiquidStakeTransfer(walletContext, stakeAccountId, connecti
         while (Date.now() - startTime < timeout) {
             const status = await connection.getSignatureStatus(signature);
             if (status && status.value && status.value.confirmationStatus === 'confirmed') {
+                toast.success('Confirmed Txn!', {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
+
                 console.log('Transaction confirmed:', signature);
                 if (onSuccessfulTransaction) {
                     onSuccessfulTransaction();
@@ -57,6 +67,15 @@ async function handleLiquidStakeTransfer(walletContext, stakeAccountId, connecti
     }
     console.log(transaction.recentBlockhash)
     const signature = await connection.sendRawTransaction(transaction.serialize());
+    toast.info('Confirming Txn', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+    });
     //await solanaConnection.confirmTransaction(signature, 'confirmed');
     await checkTransactionStatus(connection, signature);
 

@@ -4,6 +4,7 @@ import { PublicKey } from "@solana/web3.js";
 import { getStakeAccount } from "@soceanfi/solana-stake-sdk";
 import { outLamports, minOutLamports, totalRentLamports } from "@unstake-it/sol-ag";
 import { prepareSetupTx, prepareUnstakeTx, prepareCleanupTx } from "@unstake-it/sol-ag";
+import { toast } from 'react-toastify';
 
 
 const fetchUnstakeDetails = async (connection, stakeAccountId, onSuccessfulTransaction) => {

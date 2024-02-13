@@ -1,5 +1,6 @@
 // Import necessary modules from @solana/web3.js
 import { Connection, PublicKey, StakeProgram, Transaction, StakeAuthorizationLayout } from '@solana/web3.js';
+import { toast } from 'react-toastify';
 
 /**
  * Authorizes a new wallet address as the stake account authority.
@@ -15,6 +16,16 @@ async function authorizeNewStakeAuthority(connection, wallet, stakeAccountPubkey
         while (Date.now() - startTime < timeout) {
             const status = await connection.getSignatureStatus(signature);
             if (status && status.value && status.value.confirmationStatus === 'confirmed') {
+                toast.success('Confirmed Txn!', {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
+
                 console.log('Transaction confirmed:', signature);
                 if (onSuccessfulTransaction) {
                     onSuccessfulTransaction();
@@ -57,7 +68,15 @@ async function authorizeNewStakeAuthority(connection, wallet, stakeAccountPubkey
 
         const signedTransaction = await wallet.signTransaction(transaction);
         const transactionId = await connection.sendRawTransaction(signedTransaction.serialize());
-
+        toast.info('Confirming Txn', {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        });
         checkTransactionStatus(connection, transactionId);
     } catch (error) {
         console.error("Error authorizing new stake authority:", error);

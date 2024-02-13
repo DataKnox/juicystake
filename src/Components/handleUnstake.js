@@ -1,4 +1,6 @@
 import { PublicKey, StakeProgram, Transaction } from '@solana/web3.js';
+import { toast } from 'react-toastify';
+
 
 
 const handleDeactivateStakeAccount = async (stakeAccountId, wallet, connection, onSuccessfulTransaction) => {
@@ -7,6 +9,16 @@ const handleDeactivateStakeAccount = async (stakeAccountId, wallet, connection, 
         while (Date.now() - startTime < timeout) {
             const status = await connection.getSignatureStatus(signature);
             if (status && status.value && status.value.confirmationStatus === 'confirmed') {
+                toast.success('Confirmed Txn!', {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
+
                 console.log('Transaction confirmed:', signature);
                 if (onSuccessfulTransaction) {
                     onSuccessfulTransaction();
@@ -39,6 +51,15 @@ const handleDeactivateStakeAccount = async (stakeAccountId, wallet, connection, 
         // Sign and send the transaction
         const signedTransaction = await wallet.signTransaction(transaction);
         const signature = await connection.sendRawTransaction(signedTransaction.serialize());
+        toast.info('Confirming Txn', {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        });
         await checkTransactionStatus(connection, signature);
 
         console.log('Stake account deactivated:', signature);

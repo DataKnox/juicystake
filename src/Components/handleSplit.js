@@ -1,6 +1,7 @@
 // Import necessary utilities from Solana web3.js
 import { PublicKey, SystemProgram, LAMPORTS_PER_SOL, Transaction, Keypair } from '@solana/web3.js';
 import { StakeProgram } from '@solana/web3.js';
+import { toast } from 'react-toastify';
 
 /**
  * Split a stake account.
@@ -16,6 +17,16 @@ const handleSplitStakeAccount = async (connection, walletContext, stakeAccountTo
         while (Date.now() - startTime < timeout) {
             const status = await connection.getSignatureStatus(signature);
             if (status && status.value && status.value.confirmationStatus === 'confirmed') {
+                toast.success('Confirmed Txn!', {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
+
                 console.log('Transaction confirmed:', signature);
                 if (onSuccessfulTransaction) {
                     onSuccessfulTransaction();
@@ -61,7 +72,15 @@ const handleSplitStakeAccount = async (connection, walletContext, stakeAccountTo
     signedTransaction.partialSign(newStakeAccount);
 
     let txid = await connection.sendRawTransaction(signedTransaction.serialize());
-
+    toast.info('Confirming Txn', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+    });
     // Confirm the transaction
     checkTransactionStatus(connection, txid);
 };

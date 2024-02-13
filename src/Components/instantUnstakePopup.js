@@ -7,7 +7,6 @@ function InstantUnstakePopup({ stakeAccount, onClose, onSubmit }) {
         async function fetchQuote() {
             console.log('balance', stakeAccount.balance);
             console.log(stakeAccount.balance.replace(' SOL', '') * 1e9)
-            // Convert the stake account information and other parameters into a query string
             const queryParams = new URLSearchParams({
                 stake: stakeAccount.id, // Assuming stakeAccount.id is the base58-encoded public key
                 lamports: stakeAccount.balance.replace(' SOL', '') * 1e9, // Convert SOL to lamports
@@ -47,9 +46,7 @@ function InstantUnstakePopup({ stakeAccount, onClose, onSubmit }) {
         return <div>Loading quote...</div>;
     }
 
-    // Calculate the unstake amount + rent returned and fee
-    // Assuming quote now includes the entire object and stakeAccInput is a property of this object
-    const unstakeAmountPlusRent = (parseInt(quote.stakeAccInput.outAmount) + parseInt(quote.stakeAccInput.additionalRentLamports)) / 1e9;
+    const unstakeAmountPlusRent = (parseInt(quote.jup.outAmount) + parseInt(quote.stakeAccInput.additionalRentLamports)) / 1e9;
     const feeAmount = (parseInt(quote.jup.marketInfos[0].lpFee.amount) + parseInt(quote.jup.marketInfos[0].platformFee.amount)) / 1e9;
 
     return (

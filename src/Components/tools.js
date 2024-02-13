@@ -18,7 +18,7 @@ import handleLiquidStake from './handleLiquidStake';
 import handleLiquidStakeTransfer from './handleLiquidStakeTxfr';
 import jslogo from '../Assets/jslogo.png';
 import { useNavigate } from 'react-router-dom';
-
+import { toast } from 'react-toastify';
 function ToolsPage() {
     const { publicKey, connected, signTransaction, sendTransaction } = useWallet();
     const [stakeAccounts, setStakeAccounts] = useState([]);
@@ -58,6 +58,7 @@ function ToolsPage() {
     };
 
     const handleSignAndSendTransaction = async (base64EncodedTransaction) => {
+
         if (!publicKey || !signTransaction || !sendTransaction) {
             console.error("Wallet is not connected");
             return;
@@ -70,10 +71,37 @@ function ToolsPage() {
 
             const signedTransaction = await signTransaction(decodedTransaction);
             const signature = await connection.sendRawTransaction(signedTransaction.serialize());
+            toast.info('Confirming Txn', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+            const startTime = Date.now();
+            let timeout = 60000;
+            while (Date.now() - startTime < timeout) {
+                const status = await connection.getSignatureStatus(signature);
+                if (status && status.value && status.value.confirmationStatus === 'confirmed') {
+                    toast.success('Confirmed Txn!', {
+                        position: "top-right",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                    });
 
-            await connection.confirmTransaction(signature, 'finalized');
+                    console.log('Transaction confirmed:', signature);
 
-            console.log("Transaction successful with signature:", signature);
+                    setRefreshData(prev => !prev);
+                    return
+                }
+                await new Promise(resolve => setTimeout(resolve, 2000)); // Poll every 2 seconds
+            }
         } catch (error) {
             console.error("Error signing or sending transaction:", error);
         }

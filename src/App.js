@@ -10,6 +10,8 @@ import {
   WalletProvider,
 } from '@solana/wallet-adapter-react';
 import { WalletModalProvider } from '@solana/wallet-adapter-react-ui';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 // Default styles that can be overridden by your app's styles
 require('@solana/wallet-adapter-react-ui/styles.css');
@@ -22,16 +24,19 @@ function App() {
   ];
 
   return (
-    <ConnectionProvider endpoint="https://api.mainnet-beta.solana.com">
-      <WalletProvider wallets={wallets} autoConnect>
-        <WalletModalProvider>
-          <Routes>
-            <Route path="/" element={<HomeComponent />} />
-            <Route path="/tools" element={<ToolsPage />} />
-          </Routes>
-        </WalletModalProvider>
-      </WalletProvider>
-    </ConnectionProvider>
+    <div>
+      <ToastContainer />
+      <ConnectionProvider endpoint="https://api.mainnet-beta.solana.com">
+        <WalletProvider wallets={wallets} autoConnect>
+          <WalletModalProvider>
+            <Routes>
+              <Route path="/" element={<HomeComponent />} />
+              <Route path="/tools" element={<ToolsPage />} />
+            </Routes>
+          </WalletModalProvider>
+        </WalletProvider>
+      </ConnectionProvider>
+    </div>
   );
 }
 

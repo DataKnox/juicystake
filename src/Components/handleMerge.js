@@ -1,4 +1,5 @@
 import { PublicKey, StakeProgram, Transaction, sendAndConfirmTransaction } from '@solana/web3.js';
+import { toast } from 'react-toastify';
 
 const mergeStakeAccounts = async (connection, wallet, sourceStakeAccountId, destinationStakeAccountId, onSuccessfulTransaction) => {
     async function checkTransactionStatus(connection, signature, timeout = 60000) {
@@ -6,6 +7,16 @@ const mergeStakeAccounts = async (connection, wallet, sourceStakeAccountId, dest
         while (Date.now() - startTime < timeout) {
             const status = await connection.getSignatureStatus(signature);
             if (status && status.value && status.value.confirmationStatus === 'confirmed') {
+                toast.success('Confirmed Txn!', {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
+
                 console.log('Transaction confirmed:', signature);
                 if (onSuccessfulTransaction) {
                     onSuccessfulTransaction();
@@ -48,6 +59,15 @@ const mergeStakeAccounts = async (connection, wallet, sourceStakeAccountId, dest
 
         const signedTransaction = await wallet.signTransaction(transaction);
         const signature = await connection.sendRawTransaction(signedTransaction.serialize());
+        toast.info('Confirming Txn', {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        });
         await checkTransactionStatus(connection, signature);
     } catch (error) {
         console.error('Error during stake account merge:', error);

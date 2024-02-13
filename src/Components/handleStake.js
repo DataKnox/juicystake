@@ -1,5 +1,5 @@
 import { Keypair, PublicKey, Authorized, LAMPORTS_PER_SOL, StakeProgram, Transaction } from '@solana/web3.js';
-
+import { toast } from 'react-toastify';
 
 async function handleStake(solanaConnection, wallet, stakeAmountSOL, stakeAuthority, withdrawAuthority, onSuccessfulTransaction) {
     async function checkTransactionStatus(connection, signature, timeout = 60000) {
@@ -7,6 +7,15 @@ async function handleStake(solanaConnection, wallet, stakeAmountSOL, stakeAuthor
         while (Date.now() - startTime < timeout) {
             const status = await connection.getSignatureStatus(signature);
             if (status && status.value && status.value.confirmationStatus === 'confirmed') {
+                toast.success('Confirmed Txn!', {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
                 console.log('Transaction confirmed:', signature);
                 if (onSuccessfulTransaction) {
                     onSuccessfulTransaction();
@@ -73,6 +82,15 @@ async function handleStake(solanaConnection, wallet, stakeAmountSOL, stakeAuthor
     try {
         const signedTransaction = await wallet.signTransaction(transaction);
         const signature = await solanaConnection.sendRawTransaction(signedTransaction.serialize());
+        toast.info('Confirming Txn', {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        });
         //await solanaConnection.confirmTransaction(signature, 'confirmed');
         await checkTransactionStatus(solanaConnection, signature);
     } catch (error) {
