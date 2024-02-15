@@ -1,8 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&display=swap');
 
-
 .about-container {
     display: flex;
+    flex-direction: row;
+    /* Ensure that this is explicitly defined for larger screens */
     justify-content: space-between;
     align-items: center;
     padding-top: 150px;
@@ -10,24 +11,46 @@
     font-family: 'Amatic SC', cursive;
     font-weight: bold;
     font-size: 40px;
-
-    /* Add padding around the content */
 }
 
 .left-side,
 .right-side {
     width: 45%;
-    /* Set width for each side */
+    /* Original width for larger screens */
 }
 
 .guac-image {
     width: 100%;
     height: auto;
+    /* Ensure the image scales correctly */
 }
 
 .with-background {
     background-color: #ffdd57;
     /* Example background color */
-    /* You can also use background-image with a URL */
-    /* background-image: url('path_to_your_background_image.jpg'); */
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+    .about-container {
+        flex-direction: column;
+        /* Stack the image and text vertically */
+        padding-top: 50px;
+        /* Reduce the top padding */
+        font-size: 24px;
+        /* Adjust the font size for smaller screens */
+    }
+
+    .left-side,
+    .right-side {
+        width: 100%;
+        /* Use full width for smaller devices */
+    }
+
+    /* Optionally, adjust the image size for smaller screens */
+    .guac-image {
+        max-width: 100%;
+        /* Ensure the image is not too large */
+        height: auto;
+    }
 }

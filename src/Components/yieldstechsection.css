@@ -71,49 +71,6 @@
     /* Additional styling here */
 }
 
-@media (max-width: 768px) {
-    .yields-tech-container {
-        flex-direction: column;
-        /* Stack image and text vertically on small screens */
-        padding-bottom: 100px;
-        /* Increase padding to accommodate the shifted .open-24-7 */
-    }
-
-    .image-section {
-        width: 100%;
-        /* Full width */
-        height: 200px;
-        /* Adjust height for smaller screens */
-    }
-
-    .text-section {
-        width: 100%;
-        /* Full width */
-        text-align: center;
-        /* Center text for a better visual appearance */
-    }
-
-    .open-24-7 {
-        left: 50%;
-        /* Ensure it's centered below the image */
-        top: auto;
-        /* Reset top position */
-        bottom: -50px;
-        /* Position it outside the text section */
-        transform: translate(-50%, 0);
-        /* Correctly center it horizontally */
-    }
-
-    .come-on-in {
-        transform: none;
-        /* Remove rotation for better readability */
-        font-size: 1.5em;
-        /* Adjust font size for smaller screens */
-    }
-}
-
-
-
 .text-section {
     width: 50%;
     padding: 0px;
@@ -137,6 +94,70 @@
     text-align: right;
     /* Increase font size for "Open 24/7" */
 }
+
+
+@media (max-width: 768px) {
+    .yields-tech-container {
+        flex-direction: column;
+        /* Stack image and text vertically on small screens */
+        padding-bottom: 100px;
+        font-size: 20px;
+        /* Increase padding to accommodate the shifted .open-24-7 */
+    }
+
+    .image-section {
+        width: 100%;
+        /* Full width */
+        height: 200px;
+        /* Adjust height for smaller screens */
+    }
+
+    .text-section {
+        width: 100%;
+        /* Full width */
+        text-align: center;
+        font-size: 20px;
+        /* Center text for a better visual appearance */
+    }
+
+    .open-24-7 {
+        display: none;
+        left: 50%;
+        /* Ensure it's centered below the image */
+        top: auto;
+        /* Reset top position */
+        bottom: -150px;
+        /* Position it outside the text section */
+        transform: translate(-50%, 0);
+        font-size: 15px;
+        /* Correctly center it horizontally */
+    }
+
+    .come-on-in {
+        transform: none;
+        /* Remove rotation for better readability */
+        font-size: 15px;
+        /* Adjust font size for smaller screens */
+    }
+
+    .text-section {
+        width: 50%;
+        padding: 0px;
+        font-family: 'Amatic SC', cursive;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: left;
+    }
+
+    .text-section h2 {
+        font-size: 2.5em;
+        /* Increase font size for "Come on in..." */
+    }
+}
+
+
+
 
 
 @keyframes rotate {

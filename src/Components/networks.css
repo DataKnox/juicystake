@@ -61,3 +61,18 @@
     /* You can also use background-image with a URL */
     /* background-image: url('path_to_your_background_image.jpg'); */
 }
+
+@media (max-width: 768px) {
+    .network {
+        margin: 0 20px;
+        /* Reduce margin for smaller screens */
+        padding-left: 20px;
+        padding-right: 20px;
+        /* Optional: Adjust font size and other properties as needed */
+    }
+
+    .network-row {
+        flex-direction: column;
+        /* Stack network items vertically on small screens */
+    }
+}

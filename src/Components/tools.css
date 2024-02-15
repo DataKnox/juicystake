@@ -171,4 +171,56 @@ button {
         padding: 4px;
         /* Adjust table cell padding */
     }
+
+    table,
+    thead,
+    tbody,
+    th,
+    td,
+    tr {
+        display: block;
+    }
+
+    /* Hide table headers on mobile */
+    thead tr {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
+
+    tr {
+        border: 4px solid black;
+    }
+
+    td {
+        /* Make table cells look like rows */
+        border: none;
+        position: relative;
+        text-align: center;
+
+    }
+
+    /* Label the data */
+    td:before {
+        /* Use the "data-label" attribute of the td to label the data */
+        position: absolute;
+        left: 6px;
+        top: 6px;
+        width: 45%;
+        padding-right: 10px;
+        white-space: nowrap;
+    }
+
+    /* Specific labels for each td based on its column */
+    td.balance:before {
+        content: "Balance";
+    }
+
+    td.validator-name:before {
+        content: "Validator Name";
+    }
+
+    td.actions:before {
+        content: "Actions";
+    }
 }

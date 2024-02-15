@@ -71,3 +71,13 @@
   border-radius: 5px;
   /* Rounded corners for the box */
 }
+
+@media (max-width: 768px) {
+  .sidebar {
+    display: none;
+  }
+
+  .main-content {
+    width: 100%;
+  }
+}
