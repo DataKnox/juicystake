@@ -2,7 +2,7 @@ import * as solanaWeb3 from '@solana/web3.js';
 import { toast } from 'react-toastify';
 import { VersionedTransaction } from "@solana/web3.js";
 
-const { Transaction, SystemProgram, PublicKey } = solanaWeb3;
+const { PublicKey } = solanaWeb3;
 
 
 async function handleJucySolQuote(walletContext, stakeAccountId, connection, onSuccessfulTransaction) {
@@ -74,6 +74,15 @@ async function handleJucySolQuote(walletContext, stakeAccountId, connection, onS
 
     const sig = await connection.sendTransaction(tx, {
         skipPreflight: true,
+    });
+    toast.info('Confirming Txn', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
     });
     checkTransactionStatus(connection, sig);
 }
