@@ -1,8 +1,7 @@
 import * as solanaWeb3 from '@solana/web3.js';
 import { toast } from 'react-toastify';
-import { VersionedTransaction } from "@solana/web3.js";
 
-const { PublicKey } = solanaWeb3;
+const { PublicKey, VersionedTransaction } = solanaWeb3;
 
 
 async function handleJucySolQuote(walletContext, stakeAccountId, connection, onSuccessfulTransaction) {
@@ -59,6 +58,7 @@ async function handleJucySolQuote(walletContext, stakeAccountId, connection, onS
         body: JSON.stringify(payload)
     });
     const swapData = await swapResponse.json();
+    const swapTxn = swapData.tx;
     console.log(swapData)
 
     //TRANSACTION
@@ -71,17 +71,28 @@ async function handleJucySolQuote(walletContext, stakeAccountId, connection, onS
         return uint8Array;
     }
     function deserializeVersionedTx(tx) {
+        console.log(tx)
         const uint8Array = base64ToUint8Array(tx);
         const decodedTransaction = VersionedTransaction.deserialize(uint8Array);
 
         return decodedTransaction;
     }
 
-    let tx = deserializeVersionedTx(swapData.tx); // `res.tx` is TX you get from POSTing to `/v1/swap`
+    function deserializeVersionedTx(tx) {
+        const txBuf = Buffer.from(tx, "base64");
+        const versionedTx = VersionedTransaction.deserialize(txBuf);
+        return versionedTx;
+    }
+
+
+    //let tx = deserializeVersionedTx(swapTxn); // `res.tx` is TX you get from POSTing to `/v1/swap`
+    let tx = deserializeVersionedTx(swapTxn);
     tx = await walletContext.signTransaction(tx);
     tx.serialize();
 
-    const sig = await connection.sendRawTransaction(tx);
+    const sig = await connection.sendTransaction(tx, {
+        skipPreflight: true,
+    });
     toast.info('Confirming Txn', {
         position: "top-right",
         autoClose: 5000,
