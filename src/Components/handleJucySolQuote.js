@@ -62,19 +62,26 @@ async function handleJucySolQuote(walletContext, stakeAccountId, connection, onS
     console.log(swapData)
 
     //TRANSACTION
+    function base64ToUint8Array(base64) {
+        const raw = atob(base64);
+        const uint8Array = new Uint8Array(new ArrayBuffer(raw.length));
+        for (let i = 0; i < raw.length; i++) {
+            uint8Array[i] = raw.charCodeAt(i);
+        }
+        return uint8Array;
+    }
     function deserializeVersionedTx(tx) {
-        const txBuf = Buffer.from(tx, "base64");
-        const versionedTx = VersionedTransaction.deserialize(txBuf);
-        return versionedTx;
+        const uint8Array = base64ToUint8Array(tx);
+        const decodedTransaction = VersionedTransaction.deserialize(uint8Array);
+
+        return decodedTransaction;
     }
 
     let tx = deserializeVersionedTx(swapData.tx); // `res.tx` is TX you get from POSTing to `/v1/swap`
     tx = await walletContext.signTransaction(tx);
     tx.serialize();
 
-    const sig = await connection.sendTransaction(tx, {
-        skipPreflight: true,
-    });
+    const sig = await connection.sendRawTransaction(tx);
     toast.info('Confirming Txn', {
         position: "top-right",
         autoClose: 5000,
