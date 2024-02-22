@@ -426,7 +426,7 @@ function ToolsPage() {
                                     handleJucySolQuote(walletContext, account.id, connection, () => {
                                         setRefreshData(prev => !prev);
                                     })
-                                }}>Juicy Quote</button>
+                                }}>Liquid Stake jucySOL</button>
                             </td>
                         </tr>
                     ))}
