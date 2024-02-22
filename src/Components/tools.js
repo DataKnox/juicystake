@@ -19,6 +19,7 @@ import handleLiquidStakeTransfer from './handleLiquidStakeTxfr';
 import jslogo from '../Assets/jslogo.png';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import handleJucySolQuote from './handleJucySolQuote';
 function ToolsPage() {
     const { publicKey, connected, signTransaction, sendTransaction } = useWallet();
     const [stakeAccounts, setStakeAccounts] = useState([]);
@@ -421,6 +422,11 @@ function ToolsPage() {
                                     />
                                 )}
                                 <button onClick={() => handleLiquidStakeTransferSubmission(account.id)}>Liquid Stake $bSOL</button>
+                                <button onClick={() => {
+                                    handleJucySolQuote(walletContext, account.id, connection, () => {
+                                        setRefreshData(prev => !prev);
+                                    })
+                                }}>Juicy Quote</button>
                             </td>
                         </tr>
                     ))}
