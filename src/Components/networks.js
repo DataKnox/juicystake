@@ -3,6 +3,7 @@ import './networks.css'; // Import your CSS file
 import solanaIcon from '../Assets/solanaflat.png'; // Import Solana icon image
 import suiIcon from '../Assets/suiblue.png'; // Import Sui icon image
 import askIcon from '../Assets/ask.png'; // Import ASK icon image
+import aptosIcon from '../Assets/aptos-apt-logo.svg'; // Import Aptos icon image
 function NetworksComponent() {
     return (
         <div id="networks-section" className="networks-container with-background">
@@ -21,6 +22,11 @@ function NetworksComponent() {
                 </div>
             </div>
             <div className="network-row">
+                <div className="network">
+                    <img src={aptosIcon} alt="Aptos" className="network-icon" />
+                    <p className="network-text">Aptos</p>
+                    <a href="https://testnet.tracemove.io/account/0xba08cec00a8cfa1deff6c9212dda8d198c8fa6ee1992f3ada76d645f99e3402b" target="_blank" rel="noreferrer">Explorer</a>
+                </div>
                 <div className="network">
                     <img src={askIcon} alt="Soon" className="network-icon" />
                     <p className="network-text">More Soon</p>
