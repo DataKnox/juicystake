@@ -1,7 +1,7 @@
 import * as solanaWeb3 from '@solana/web3.js';
 import { toast } from 'react-toastify';
 
-const { PublicKey, VersionedTransaction, ComputeBudgetProgram } = solanaWeb3;
+const { PublicKey, VersionedTransaction, ComputeBudgetProgram, Connection } = solanaWeb3;
 
 
 async function handleJucySolQuote(walletContext, stakeAccountId, connection, onSuccessfulTransaction) {
@@ -39,6 +39,7 @@ async function handleJucySolQuote(walletContext, stakeAccountId, connection, onS
     const response = await fetch(quoteUrl);
     const data = await response.json();
     console.log(data)
+    const connection1 = new Connection('https://juicystake.io:4040', 'confirmed');
     const PRIORITY_RATE = 100; // MICRO_LAMPORTS 
     const PRIORITY_FEE_IX = ComputeBudgetProgram.setComputeUnitPrice({ microLamports: PRIORITY_RATE });
     //SWAP TO GET IXN
@@ -93,7 +94,7 @@ async function handleJucySolQuote(walletContext, stakeAccountId, connection, onS
     tx = await walletContext.signTransaction(tx);
     tx.serialize();
 
-    const sig = await connection.sendTransaction(tx, {
+    const sig = await connection1.sendTransaction(tx, {
         skipPreflight: true,
     });
     toast.info('Confirming Txn', {
