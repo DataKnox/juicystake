@@ -37,6 +37,7 @@ function ToolsPage() {
     // const [selectedAccountforLiquidTransfer, setAccountForLiquidTransfer] = useState(null); // State for selected stake account
     const walletContext = useWallet();
     const connection = new Connection('https://juicystake.io:8899', 'confirmed');
+    const connection1 = new Connection('https://juicystake.io:4040', 'confirmed');
     let navigate = useNavigate();
     function base64ToUint8Array(base64) {
         const raw = atob(base64);
@@ -53,7 +54,7 @@ function ToolsPage() {
             return;
         }
 
-        await handleLiquidStakeTransfer(walletContext, stakeAccountId, connection, () => {
+        await handleLiquidStakeTransfer(walletContext, stakeAccountId, connection1, () => {
             setRefreshData(prev => !prev); // Toggle refreshData state to trigger re-fetch
         });
     };
@@ -71,7 +72,7 @@ function ToolsPage() {
 
 
             const signedTransaction = await signTransaction(decodedTransaction);
-            const signature = await connection.sendRawTransaction(signedTransaction.serialize());
+            const signature = await connection1.sendRawTransaction(signedTransaction.serialize());
             toast.info('Confirming Txn', {
                 position: "top-right",
                 autoClose: 5000,
@@ -155,7 +156,7 @@ function ToolsPage() {
 
     const handleSplitSubmission = async (amountSOL) => {
         await handleSplitStakeAccount(
-            connection,
+            connection1,
             walletContext,
             selectedStakeAccountForSplit, // The public key of the stake account to split
             amountSOL, // Amount to move to the new stake account
@@ -180,7 +181,7 @@ function ToolsPage() {
 
         try {
             await authorizeNewStakeAuthority(
-                connection,
+                connection1,
                 walletContext,
                 selectedStakeAccountForTransfer, // The public key of the stake account to transfer
                 targetAddress,
@@ -197,7 +198,7 @@ function ToolsPage() {
 
     const handleMergeSubmission = async (mergeWithAccountId) => {
         await mergeStakeAccounts(
-            connection,
+            connection1,
             walletContext, // Make sure you pass the correct wallet object
             selectedAccountIdForMerge,
             mergeWithAccountId,
@@ -214,7 +215,7 @@ function ToolsPage() {
             return;
         }
 
-        await handleDeactivateStakeAccount(stakeAccountId, walletContext, connection, () => {
+        await handleDeactivateStakeAccount(stakeAccountId, walletContext, connection1, () => {
             setRefreshData(prev => !prev); // Toggle refreshData state to trigger re-fetch
         });
     };
@@ -242,7 +243,7 @@ function ToolsPage() {
         const stakeAuthority = publicKey;
         const withdrawAuthority = publicKey;
 
-        await handleStake(connection, walletContext, amountSOL, stakeAuthority, withdrawAuthority, () => {
+        await handleStake(connection1, walletContext, amountSOL, stakeAuthority, withdrawAuthority, () => {
             setRefreshData(prev => !prev); // Toggle refreshData state to trigger re-fetch
         });
     };
@@ -423,7 +424,7 @@ function ToolsPage() {
                                 )}
                                 <button onClick={() => handleLiquidStakeTransferSubmission(account.id)}>Liquid Stake $bSOL</button>
                                 <button onClick={() => {
-                                    handleJucySolQuote(walletContext, account.id, connection, () => {
+                                    handleJucySolQuote(walletContext, account.id, connection1, () => {
                                         setRefreshData(prev => !prev);
                                     })
                                 }}>Liquid Stake jucySOL</button>

@@ -1,7 +1,7 @@
 import * as solanaWeb3 from '@solana/web3.js';
 import { toast } from 'react-toastify';
 
-const { PublicKey, VersionedTransaction } = solanaWeb3;
+const { PublicKey, VersionedTransaction, ComputeBudgetProgram } = solanaWeb3;
 
 
 async function handleJucySolQuote(walletContext, stakeAccountId, connection, onSuccessfulTransaction) {
@@ -39,7 +39,8 @@ async function handleJucySolQuote(walletContext, stakeAccountId, connection, onS
     const response = await fetch(quoteUrl);
     const data = await response.json();
     console.log(data)
-
+    const PRIORITY_RATE = 100; // MICRO_LAMPORTS 
+    const PRIORITY_FEE_IX = ComputeBudgetProgram.setComputeUnitPrice({ microLamports: PRIORITY_RATE });
     //SWAP TO GET IXN
     const payload = {
         "input": "juicQdAnksqZ5Yb8NQwCLjLWhykvXGktxnQCDvMe6Nx", // voter pubkey of the stake account
@@ -61,32 +62,34 @@ async function handleJucySolQuote(walletContext, stakeAccountId, connection, onS
     const swapTxn = swapData.tx;
     console.log(swapData)
 
-    //TRANSACTION
-    function base64ToUint8Array(base64) {
-        const raw = atob(base64);
-        const uint8Array = new Uint8Array(new ArrayBuffer(raw.length));
-        for (let i = 0; i < raw.length; i++) {
-            uint8Array[i] = raw.charCodeAt(i);
-        }
-        return uint8Array;
-    }
-    function deserializeVersionedTx(tx) {
-        console.log(tx)
-        const uint8Array = base64ToUint8Array(tx);
-        const decodedTransaction = VersionedTransaction.deserialize(uint8Array);
-
-        return decodedTransaction;
-    }
+    // //TRANSACTION
+    // function base64ToUint8Array(base64) {
+    //     const raw = atob(base64);
+    //     const uint8Array = new Uint8Array(new ArrayBuffer(raw.length));
+    //     for (let i = 0; i < raw.length; i++) {
+    //         uint8Array[i] = raw.charCodeAt(i);
+    //     }
+    //     return uint8Array;
+    // }
+    // function deserializeVersionedTx(tx) {
+    //     //console.log(tx)
+    //     const uint8Array = base64ToUint8Array(tx);
+    //     const decodedTransaction = VersionedTransaction.deserialize(uint8Array);
+    //     console.log(decodedTransaction)
+    //     return decodedTransaction;
+    // }
 
     function deserializeVersionedTx(tx) {
         const txBuf = Buffer.from(tx, "base64");
         const versionedTx = VersionedTransaction.deserialize(txBuf);
+        console.log(versionedTx)
         return versionedTx;
     }
 
 
     //let tx = deserializeVersionedTx(swapTxn); // `res.tx` is TX you get from POSTing to `/v1/swap`
     let tx = deserializeVersionedTx(swapTxn);
+    // tx = tx.message.compiledInstructions.push(PRIORITY_FEE_IX);
     tx = await walletContext.signTransaction(tx);
     tx.serialize();
 
