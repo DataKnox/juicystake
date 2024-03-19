@@ -1,4 +1,4 @@
-import { PublicKey, StakeProgram, Transaction, sendAndConfirmTransaction } from '@solana/web3.js';
+import { PublicKey, StakeProgram, Transaction, sendAndConfirmTransaction, ComputeBudgetProgram } from '@solana/web3.js';
 import { toast } from 'react-toastify';
 
 const mergeStakeAccounts = async (connection, wallet, sourceStakeAccountId, destinationStakeAccountId, onSuccessfulTransaction) => {
@@ -45,8 +45,9 @@ const mergeStakeAccounts = async (connection, wallet, sourceStakeAccountId, dest
             authorizedPubkey: wallet.publicKey,
         }).instructions[0];
         const blockhashDetails = await connection.getRecentBlockhash();
-        const transaction = new Transaction().add(mergeInstruction);
+        const PRIORITY_FEE_IX = ComputeBudgetProgram.setComputeUnitPrice({ microLamports: 10000 });
 
+        const transaction = new Transaction().add(mergeInstruction).add(PRIORITY_FEE_IX);
         transaction.recentBlockhash = blockhashDetails.blockhash;
         transaction.lastValidBlockHeight = blockhashDetails.lastValidBlockHeight;
         transaction.feePayer = wallet.publicKey;

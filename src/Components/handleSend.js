@@ -1,5 +1,5 @@
 // Import necessary modules from @solana/web3.js
-import { Connection, PublicKey, StakeProgram, Transaction, StakeAuthorizationLayout } from '@solana/web3.js';
+import { Connection, PublicKey, StakeProgram, Transaction, StakeAuthorizationLayout, ComputeBudgetProgram } from '@solana/web3.js';
 import { toast } from 'react-toastify';
 
 /**
@@ -41,7 +41,7 @@ async function authorizeNewStakeAuthority(connection, wallet, stakeAccountPubkey
     const targetAddress = new PublicKey(targetAddressStr);
 
     let transaction = new Transaction();
-
+    const PRIORITY_FEE_IX = ComputeBudgetProgram.setComputeUnitPrice({ microLamports: 10000 });
     const stakeAuthorizationType = {
         index: 0 // Assuming we are setting a new Staker; adjust the index as needed
     };
@@ -61,6 +61,7 @@ async function authorizeNewStakeAuthority(connection, wallet, stakeAccountPubkey
         stakeAuthorizationType: { index: 1 }, // Use the defined authorization type
     });
     transaction.add(authorizeWithdrawerInstruction);
+    transaction.add(PRIORITY_FEE_IX);
     try {
         const { blockhash } = await connection.getRecentBlockhash();
         transaction.recentBlockhash = blockhash;

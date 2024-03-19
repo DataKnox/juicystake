@@ -2,7 +2,7 @@ import * as solanaWeb3 from '@solana/web3.js';
 import * as solanaStakePool from '@solana/spl-stake-pool';
 import { toast } from 'react-toastify';
 
-const { Transaction, SystemProgram, PublicKey } = solanaWeb3;
+const { Transaction, SystemProgram, PublicKey, ComputeBudgetProgram } = solanaWeb3;
 const { depositStake } = solanaStakePool;
 
 async function handleLiquidStakeTransfer(walletContext, stakeAccountId, connection, onSuccessfulTransaction) {
@@ -54,6 +54,7 @@ async function handleLiquidStakeTransfer(walletContext, stakeAccountId, connecti
         lamports: 5000
     }));
     transaction.add(...depositTx.instructions);
+    transaction.add(ComputeBudgetProgram.setComputeUnitPrice({ microLamports: 10000 }));
     const blockhashDetails = await connection.getRecentBlockhash();
     transaction.recentBlockhash = blockhashDetails.blockhash;
     transaction.feePayer = walletContext.publicKey;

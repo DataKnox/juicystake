@@ -1,5 +1,5 @@
 // Import necessary utilities from Solana web3.js
-import { PublicKey, SystemProgram, LAMPORTS_PER_SOL, Transaction, Keypair } from '@solana/web3.js';
+import { PublicKey, SystemProgram, LAMPORTS_PER_SOL, Transaction, Keypair, ComputeBudgetProgram } from '@solana/web3.js';
 import { StakeProgram } from '@solana/web3.js';
 import { toast } from 'react-toastify';
 
@@ -37,7 +37,7 @@ const handleSplitStakeAccount = async (connection, walletContext, stakeAccountTo
         }
         console.log('Transaction status unknown after timeout:', signature);
     }
-
+    const PRIORITY_FEE_IX = ComputeBudgetProgram.setComputeUnitPrice({ microLamports: 10000 });
     const newStakeAccount = Keypair.generate();
     const accountInfo = await connection.getAccountInfo(newStakeAccount.publicKey);
     if (accountInfo !== null) {
@@ -61,7 +61,8 @@ const handleSplitStakeAccount = async (connection, walletContext, stakeAccountTo
         authorizedPubkey: walletContext.publicKey,
         splitStakePubkey: newStakeAccount.publicKey,
         lamports: lamportsToSplit
-    }));
+    }))
+        .add(PRIORITY_FEE_IX);
 
     let { blockhash } = await connection.getRecentBlockhash();
     transaction.recentBlockhash = blockhash;

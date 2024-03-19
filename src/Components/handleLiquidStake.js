@@ -29,7 +29,7 @@ async function handleLiquidStake(amount, walletContext, connection, onSuccessful
 
     let lamports = amount * LAMPORTS_PER_SOL;
     console.log('Depositing', lamports, 'lamports to BlazeStake pool');
-
+    const PRIORITY_FEE_IX = solanaWeb3.ComputeBudgetProgram.setComputeUnitPrice({ microLamports: 10000 });
 
     let depositTx = await depositSol(
         connection,
@@ -48,7 +48,7 @@ async function handleLiquidStake(amount, walletContext, connection, onSuccessful
     }));
 
     transaction.add(...depositTx.instructions);
-
+    transaction.add(PRIORITY_FEE_IX);
     const blockhashDetails = await connection.getRecentBlockhash();
     transaction.recentBlockhash = blockhashDetails.blockhash;
     transaction.feePayer = walletContext.publicKey;

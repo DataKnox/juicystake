@@ -1,4 +1,4 @@
-import { Keypair, PublicKey, Authorized, LAMPORTS_PER_SOL, StakeProgram, Transaction } from '@solana/web3.js';
+import { Keypair, PublicKey, Authorized, LAMPORTS_PER_SOL, StakeProgram, Transaction, ComputeBudgetProgram } from '@solana/web3.js';
 import { toast } from 'react-toastify';
 
 async function handleStake(solanaConnection, wallet, stakeAmountSOL, stakeAuthority, withdrawAuthority, onSuccessfulTransaction) {
@@ -26,7 +26,7 @@ async function handleStake(solanaConnection, wallet, stakeAmountSOL, stakeAuthor
         }
         console.log('Transaction status unknown after timeout:', signature);
     }
-
+    const PRIORITY_FEE_IX = ComputeBudgetProgram.setComputeUnitPrice({ microLamports: 10000 });
     // Convert SOL to lamports
     // Create a new stake account
     const newStakeAccount = Keypair.generate();
@@ -66,8 +66,8 @@ async function handleStake(solanaConnection, wallet, stakeAmountSOL, stakeAuthor
     // Create a transaction and add instructions
     const transaction = new Transaction() // Use the latest supported version or choose appropriately
         .add(createStakeAccountInstruction)
-        .add(delegateStakeInstruction);
-
+        .add(delegateStakeInstruction)
+        .add(PRIORITY_FEE_IX);
     transaction.recentBlockhash = blockhash;
     transaction.feePayer = wallet.publicKey;
     transaction.partialSign(newStakeAccount);
