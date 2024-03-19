@@ -94,7 +94,7 @@ async function handleJucySolQuote(walletContext, stakeAccountId, connection, onS
     tx = await walletContext.signTransaction(tx);
     tx.serialize();
 
-    const sig = await connection1.sendTransaction(tx, {
+    const sig = await connection.sendTransaction(tx, {
         skipPreflight: true,
     });
     toast.info('Confirming Txn', {

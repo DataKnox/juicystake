@@ -334,8 +334,14 @@ function ToolsPage() {
 
     return (
         <div className="stake-accounts-container">
+            <p className="jucy">‼️This page is for managing native stake accounts‼️</p>
+            <div className="wallet-actions">
+                <WalletMultiButton />
+
+            </div>
             <div className="header">
                 <img src={jslogo} alt="Logo" className="logo-img" onClick={() => navigate('/')} />
+
                 {/* <button onClick={() => setIsLiquidStakeVisible(true)} className="stake-button">Liquid Stake 4 bSOL</button>
                 {isLiquidStakeVisible && (
                     <LiquidStakePopup
@@ -352,10 +358,8 @@ function ToolsPage() {
                         onSubmit={handleStakeSubmission}
                     />
                 )}
-                <div className="wallet-actions">
-                    <WalletMultiButton />
+                <a className="stake-button" href='https://app.sanctum.so/swap' target="_blank">👉If you want jucySOL click here👈</a>
 
-                </div>
             </div>
             <table>
                 <thead>

@@ -9,6 +9,11 @@
 
 /* tools.css */
 
+.jucy {
+    font-family: 'Permanent Marker', cursive;
+    font-size: 22px;
+}
+
 .stake-accounts-container {
     display: flex;
     flex-direction: column;
