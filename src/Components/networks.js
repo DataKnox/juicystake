@@ -2,7 +2,7 @@ import React from 'react';
 import './networks.css'; // Import your CSS file
 import solanaIcon from '../Assets/solanaflat.png'; // Import Solana icon image
 import suiIcon from '../Assets/suiblue.png'; // Import Sui icon image
-import askIcon from '../Assets/ask.png'; // Import ASK icon image
+import cubeIcon from '../Assets/cube.jpeg'; // Import ASK icon image
 import aptosIcon from '../Assets/aptos-apt-logo.svg'; // Import Aptos icon image
 function NetworksComponent() {
     return (
@@ -25,11 +25,12 @@ function NetworksComponent() {
                 <div className="network">
                     <img src={aptosIcon} alt="Aptos" className="network-icon" />
                     <p className="network-text">Aptos</p>
-                    <a href="https://testnet.tracemove.io/account/0xba08cec00a8cfa1deff6c9212dda8d198c8fa6ee1992f3ada76d645f99e3402b" target="_blank" rel="noreferrer">Explorer</a>
+                    <a href="https://explorer.aptoslabs.com/validator/0x66fcc9a1275170c140988e8fdc5104fef09568bdd07930f44a290bf55a5550ee?network=mainnet" target="_blank" rel="noreferrer">Stake via Explorer</a>
                 </div>
                 <div className="network">
-                    <img src={askIcon} alt="Soon" className="network-icon" />
-                    <p className="network-text">More Soon</p>
+                    <img src={cubeIcon} alt="Cube" className="network-icon" />
+                    <p className="network-text">Cube Exchange</p>
+                    <a href="https://www.cube.exchange/" target="_blank" rel="noreferrer">Cube Exchange</a><br />
                 </div>
             </div>
         </div>

@@ -36,8 +36,8 @@ function ToolsPage() {
     // const [isLiquidStakeVisible, setIsLiquidStakeVisible] = useState(false); // State for Liquid Stake Popup visibility
     // const [selectedAccountforLiquidTransfer, setAccountForLiquidTransfer] = useState(null); // State for selected stake account
     const walletContext = useWallet();
-    const connection = new Connection('https://juicystake.io:8899', 'confirmed');
-    const connection1 = new Connection('https://juicystake.io:4040', 'confirmed');
+    const connection = new Connection('https://rpc.juicystake.io', { commitment: 'confirmed', wsEndpoint: 'http://rpc.juicystake.io:8900' });
+
     let navigate = useNavigate();
     function base64ToUint8Array(base64) {
         const raw = atob(base64);
@@ -358,7 +358,7 @@ function ToolsPage() {
                         onSubmit={handleStakeSubmission}
                     />
                 )}
-                <a className="stake-button" href='https://app.sanctum.so/swap' target="_blank">👉If you want jucySOL click here👈</a>
+                <a className="stake-button" href='https://app.sanctum.so/trade' target="_blank">👉If you want jucySOL click here👈</a>
 
             </div>
             <table>

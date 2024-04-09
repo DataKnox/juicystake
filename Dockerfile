@@ -18,8 +18,7 @@ COPY . .
 RUN yarn run build
 
 
-FROM --platform=linux/amd64 nginx
-
+FROM --platform=linux/amd64 nginx:alpine
 
 COPY ./nginx/nginx.conf /etc/nginx/nginx.conf
 
