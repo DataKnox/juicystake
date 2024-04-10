@@ -36,7 +36,7 @@ function ToolsPage() {
     // const [isLiquidStakeVisible, setIsLiquidStakeVisible] = useState(false); // State for Liquid Stake Popup visibility
     // const [selectedAccountforLiquidTransfer, setAccountForLiquidTransfer] = useState(null); // State for selected stake account
     const walletContext = useWallet();
-    const connection = new Connection('https://rpc.juicystake.io', { commitment: 'confirmed', wsEndpoint: 'http://rpc.juicystake.io:8900' });
+    const connection = new Connection('https://cherise-ldxzh0-fast-mainnet.helius-rpc.com', 'confirmed');
 
     let navigate = useNavigate();
     function base64ToUint8Array(base64) {
