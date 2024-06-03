@@ -1,0 +1,13 @@
+version: '3'
+services:
+  nginx:
+    image: juicystake.azurecr.io/juicystake:v1.4.8
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8899:8899"
+      - "8900:8900"
+      - "4040:4040"
+    volumes:
+      - "/etc/letsencrypt:/etc/letsencrypt"
+    restart: always

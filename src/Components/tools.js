@@ -284,7 +284,7 @@ function ToolsPage() {
 
         const fetchStakeAccounts = async () => {
             try {
-                const connection = new Connection('https://juicystake.io:8899', 'confirmed');
+                //const connection = new Connection('https://juicystake.io:8899', 'confirmed');
                 const accounts = await connection.getParsedProgramAccounts(
                     StakeProgram.programId, {
                     filters: [{ dataSize: 200 }, { memcmp: { offset: 12, bytes: publicKey.toBase58() } }],
