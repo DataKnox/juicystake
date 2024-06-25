@@ -4,6 +4,8 @@ import solanaIcon from '../Assets/solanaflat.png'; // Import Solana icon image
 import suiIcon from '../Assets/suiblue.png'; // Import Sui icon image
 import cubeIcon from '../Assets/cube.jpeg'; // Import ASK icon image
 import aptosIcon from '../Assets/aptos-apt-logo.svg'; // Import Aptos icon image
+import ethIcon from '../Assets/ethereum.svg'; // Import Ethereum icon image
+import archIcon from '../Assets/Arch Logo Black.svg'; // Import Arch icon image
 function NetworksComponent() {
     return (
         <div id="networks-section" className="networks-container with-background">
@@ -31,6 +33,18 @@ function NetworksComponent() {
                     <img src={cubeIcon} alt="Cube" className="network-icon" />
                     <p className="network-text">Cube Exchange</p>
                     <a href="https://www.cube.exchange/" target="_blank" rel="noreferrer">Cube Exchange</a><br />
+                </div>
+            </div>
+            <div className="network-row">
+                <div className="network">
+                    <img src={ethIcon} alt="Ethereum" className="network-icon" />
+                    <p className="network-text">Ethereum</p>
+                    <a href="https://beaconcha.in/validator/0xa20656584fa1fe728a20a859955909bd96afe1e868be8d8ba32a310659b7a1b30e8055a584118a8af6a0131025a6818c#deposits" target="_blank" rel="noreferrer">Beaconchain</a>
+                </div>
+                <div className="network">
+                    <img src={archIcon} alt="ArchNetwork" className="network-icon" />
+                    <p className="network-text">Arch Network - Coming Soon</p>
+                    <a href="https://www.arch.network/" target="_blank" rel="noreferrer">Arch Site</a><br />
                 </div>
             </div>
         </div>
