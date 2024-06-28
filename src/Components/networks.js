@@ -43,7 +43,7 @@ function NetworksComponent() {
                 </div>
                 <div className="network">
                     <img src={archIcon} alt="ArchNetwork" className="network-icon" />
-                    <p className="network-text">Arch Network - Coming Soon</p>
+                    <p className="network-text">Arch - Soon</p>
                     <a href="https://www.arch.network/" target="_blank" rel="noreferrer">Arch Site</a><br />
                 </div>
             </div>
