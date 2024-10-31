@@ -6,6 +6,8 @@ import cubeIcon from '../Assets/cube.jpeg'; // Import ASK icon image
 import aptosIcon from '../Assets/aptos-apt-logo.svg'; // Import Aptos icon image
 import ethIcon from '../Assets/ethereum.svg'; // Import Ethereum icon image
 import archIcon from '../Assets/Arch Logo Black.svg'; // Import Arch icon image
+import walrusIcon from '../Assets/Logo_Walrus.svg'; // Import Walrus icon image
+import questionMark from '../Assets/Icon-round-Question_mark.svg'; // Import question mark icon image
 function NetworksComponent() {
     return (
         <div id="networks-section" className="networks-container with-background">
@@ -45,6 +47,17 @@ function NetworksComponent() {
                     <img src={archIcon} alt="ArchNetwork" className="network-icon" />
                     <p className="network-text">Arch - Soon</p>
                     <a href="https://www.arch.network/" target="_blank" rel="noreferrer">Arch Site</a><br />
+                </div>
+            </div>
+            <div className="network-row">
+                <div className="network">
+                    <img src={walrusIcon} alt="Walrus" className="network-icon" />
+                    <p className="network-text">Walrus Testnet</p>
+                    <a href="https://walruscan.com/testnet/operator/0x70bc82baec578437bf2f61ce024c2b6da46038ddbcb95dbfc72a2151103a8097" target="_blank" rel="noreferrer">WalrusScan</a>
+                </div>
+                <div className="network">
+                    <img src={questionMark} alt="Soon" className="network-icon" />
+                    <p className="network-text">Soon</p>
                 </div>
             </div>
         </div>
