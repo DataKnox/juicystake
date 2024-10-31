@@ -1,13 +1,33 @@
-version: '3'
+version: '3.8'
+
 services:
-  nginx:
-    image: juicystake.azurecr.io/juicystake:v1.4.8
-    ports:
-      - "80:80"
-      - "443:443"
-      - "8899:8899"
-      - "8900:8900"
-      - "4040:4040"
-    volumes:
-      - "/etc/letsencrypt:/etc/letsencrypt"
+  nginx-proxy-manager:
+    image: 'jc21/nginx-proxy-manager:latest'
+    container_name: nginx-proxy-manager
     restart: always
+    ports:
+      - "80:80"      # HTTP
+      - "443:443"    # HTTPS
+      - "81:81"      # Nginx Proxy Manager Admin
+    environment:
+      DB_SQLITE_FILE: "/data/database.sqlite"
+    volumes:
+      - ./nginx-proxy-manager/data:/data
+      - ./nginx-proxy-manager/letsencrypt:/etc/letsencrypt
+    networks:
+      - web
+
+  webapp:
+    image: juicystake.azurecr.io/juicystake:v1.6.4
+    container_name: webapp
+    restart: always
+    environment:
+      - PORT=3000
+    expose:
+      - "3000"
+    networks:
+      - web
+
+networks:
+  web:
+    driver: bridge
