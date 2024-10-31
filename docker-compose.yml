@@ -21,10 +21,8 @@ services:
     image: juicystake.azurecr.io/juicystake:v1.6.4
     container_name: webapp
     restart: always
-    environment:
-      - PORT=3000
-    expose:
-      - "3000"
+    ports:
+      - "3000:3000"
     networks:
       - web
 
