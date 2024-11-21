@@ -8,6 +8,7 @@ import ethIcon from '../Assets/ethereum.svg'; // Import Ethereum icon image
 import archIcon from '../Assets/Arch Logo Black.svg'; // Import Arch icon image
 import walrusIcon from '../Assets/Logo_Walrus.svg'; // Import Walrus icon image
 import questionMark from '../Assets/Icon-round-Question_mark.svg'; // Import question mark icon image
+import stacksIcon from '../Assets/stacks.png'; // Import Stacks icon image
 function NetworksComponent() {
     return (
         <div id="networks-section" className="networks-container with-background">
@@ -56,8 +57,8 @@ function NetworksComponent() {
                     <a href="https://walruscan.com/testnet/operator/0x70bc82baec578437bf2f61ce024c2b6da46038ddbcb95dbfc72a2151103a8097" target="_blank" rel="noreferrer">WalrusScan</a>
                 </div>
                 <div className="network">
-                    <img src={questionMark} alt="Soon" className="network-icon" />
-                    <p className="network-text">Soon</p>
+                    <img src={stacksIcon} alt="Stacks" className="network-icon" />
+                    <p className="network-text">Stacks Network</p>
                 </div>
             </div>
         </div>

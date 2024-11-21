@@ -1,4 +1,4 @@
-FROM --platform=linux/amd64 node:latest as build 
+FROM --platform=linux/amd64 node:latest AS build 
 
 
 WORKDIR /react-app
@@ -13,9 +13,6 @@ RUN yarn install
 
 
 COPY . .
-
-
-RUN yarn run build
 
 
 EXPOSE 3000
