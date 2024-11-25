@@ -13,9 +13,9 @@ import authorizeNewStakeAuthority from './handleSend';
 import SplitPopup from './splitPopup';
 import handleSplitStakeAccount from './handleSplit';
 import InstantUnstakePopup from './instantUnstakePopup';
-import LiquidStakePopup from './liquidStakePopup';
-import handleLiquidStake from './handleLiquidStake';
-import handleLiquidStakeTransfer from './handleLiquidStakeTxfr';
+// import LiquidStakePopup from './liquidStakePopup';
+// import handleLiquidStake from './handleLiquidStake';
+// import handleLiquidStakeTransfer from './handleLiquidStakeTxfr';
 import jslogo from '../Assets/jslogo.png';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -48,16 +48,16 @@ function ToolsPage() {
         return uint8Array;
     }
 
-    const handleLiquidStakeTransferSubmission = async (stakeAccountId) => {
-        if (!publicKey || !walletContext.connected) {
-            console.log("Wallet is not connected");
-            return;
-        }
+    // const handleLiquidStakeTransferSubmission = async (stakeAccountId) => {
+    //     if (!publicKey || !walletContext.connected) {
+    //         console.log("Wallet is not connected");
+    //         return;
+    //     }
 
-        await handleLiquidStakeTransfer(walletContext, stakeAccountId, connection, () => {
-            setRefreshData(prev => !prev); // Toggle refreshData state to trigger re-fetch
-        });
-    };
+    //     await handleLiquidStakeTransfer(walletContext, stakeAccountId, connection, () => {
+    //         setRefreshData(prev => !prev); // Toggle refreshData state to trigger re-fetch
+    //     });
+    // };
 
     const handleSignAndSendTransaction = async (base64EncodedTransaction) => {
 
@@ -220,19 +220,19 @@ function ToolsPage() {
         });
     };
 
-    const handleLiquidStakeSubmission = async (amountSOL) => {
-        if (!publicKey || !walletContext.connected) {
-            console.log("Wallet is not connected");
-            return;
-        }
+    // const handleLiquidStakeSubmission = async (amountSOL) => {
+    //     if (!publicKey || !walletContext.connected) {
+    //         console.log("Wallet is not connected");
+    //         return;
+    //     }
 
-        console.log("Submitting liquid stake request for", amountSOL, "SOL");
-        await handleLiquidStake(amountSOL, walletContext, connection, () => {
-            setRefreshData(prev => !prev); // Toggle refreshData state to trigger re-fetch
-        }
-        );
+    //     console.log("Submitting liquid stake request for", amountSOL, "SOL");
+    //     await handleLiquidStake(amountSOL, walletContext, connection, () => {
+    //         setRefreshData(prev => !prev); // Toggle refreshData state to trigger re-fetch
+    //     }
+    //     );
 
-    };
+    // };
 
     const handleStakeSubmission = async (amountSOL) => {
         if (!publicKey || !walletContext.connected) {
@@ -426,7 +426,7 @@ function ToolsPage() {
                                         onSubmit={handleTransferSubmission}
                                     />
                                 )}
-                                <button onClick={() => handleLiquidStakeTransferSubmission(account.id)}>Liquid Stake $bSOL</button>
+                                {/* <button onClick={() => handleLiquidStakeTransferSubmission(account.id)}>Liquid Stake $bSOL</button> */}
                                 <button onClick={() => {
                                     handleJucySolQuote(walletContext, account.id, connection, () => {
                                         setRefreshData(prev => !prev);
