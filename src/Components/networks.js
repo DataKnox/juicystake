@@ -59,6 +59,7 @@ function NetworksComponent() {
                 <div className="network">
                     <img src={stacksIcon} alt="Stacks" className="network-icon" />
                     <p className="network-text">Stacks Network</p>
+                    <a href="https://explorer.hiro.so/address/SP4SZE494VC2YC5JYG7AYFQ44F5Q4PYV7DVMDPBG.stacking-pool-signer-juicy-stake-v1?chain=mainnet" target="_blank" rel="noreferrer">Stacks Explorer</a>
                 </div>
             </div>
         </div>
