@@ -23,7 +23,8 @@ function NetworksComponent() {
                     <img src={suiIcon} alt="Sui" className="network-icon" />
                     <p className="network-text">Sui</p>
                     <a href="https://suiscan.xyz/mainnet/validator/0xb7847468db546ba85acb9dcdc0c5190b3ca6427d713ff52a4f8183c81f8a39e1/info" target="_blank" rel="noreferrer">SuiScan</a><br />
-                    <a href="https://metrics.sui.io/public-dashboards/4ceb11cc210d4025b122294586961169?orgId=1&refresh=1m&from=now-5m&to=now" target="_blank" rel="noreferrer">Node Health</a>
+                    <a href="https://metrics.sui.io/public-dashboards/4ceb11cc210d4025b122294586961169?orgId=1&refresh=1m&from=now-5m&to=now" target="_blank" rel="noreferrer">Node Health</a><br />
+                    <a href="https://aftermath.finance/stake?validator=juicy-stake" target="_blank" rel="noreferrer">afSUI LST</a>
                 </div>
             </div>
             <div className="network-row">
