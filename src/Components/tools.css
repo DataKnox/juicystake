@@ -1,3 +1,4 @@
+/* ===== Base Styles ===== */
 .wallet-connect-container {
     display: flex;
     justify-content: center;
@@ -7,19 +8,22 @@
     background-color: #ffdd57;
 }
 
-/* tools.css */
-
+/* ===== Typography ===== */
 .jucy {
     font-family: 'Permanent Marker', cursive;
     font-size: 22px;
 }
 
+/* ===== Layout Components ===== */
 .stake-accounts-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    /* Adjust based on your layout needs */
+    padding: 20px;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .logo-img {
@@ -32,59 +36,28 @@
     cursor: pointer;
 }
 
-
-.stake-button {
-    background-color: black;
-    height: 100px;
-    color: white;
-    font-size: 1.5rem;
-    /* Adjust size as needed */
-    /* Makes the button twice as high and 4 times as long */
-    font-family: 'CoolFont', sans-serif;
-    /* Replace 'CoolFont' with your actual font */
-    cursor: pointer;
-    border: none;
-    margin-bottom: 20px;
-    /* Space between this button and any other content */
-}
-
-/* tools.css */
-
-.tools-page-container {
-    /* Ensures the full page is a flex container, allows for overall layout control */
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-}
-
-.header {
-    /* Aligns items in a row at the top of the page */
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    box-sizing: border-box;
-    /* Ensures padding doesn't add to the total width */
-}
-
+/* ===== Button Styles ===== */
 .stake-button {
     background-color: black;
     color: white;
     font-size: 1.5rem;
     padding: 10px 40px;
-    /* Adjust size as needed */
     cursor: pointer;
     font-family: 'Permanent Marker', cursive;
     border: none;
-    /* Additional styling for the button as needed */
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.stake-button:hover {
+    background-color: #333;
 }
 
 .wallet-actions {
-    /* Adjust as needed; already positioned to the right due to flexbox */
     display: flex;
     align-items: center;
     gap: 10px;
-    /* Adds some space between wallet button and disconnect button */
+    margin-bottom: 20px;
 }
 
 .disconnect-button {
@@ -96,20 +69,23 @@
     border: none;
 }
 
+/* ===== Table Styles ===== */
 table {
     width: 100%;
     border-collapse: collapse;
+    margin-top: 20px;
 }
 
 th,
 td {
     text-align: left;
-    padding: 8px;
+    padding: 12px;
 }
 
 th {
     font-family: 'Permanent Marker', cursive;
     font-size: 22px;
+    background-color: #f2f2f2;
 }
 
 td {
@@ -123,60 +99,57 @@ button {
     margin-right: 10px;
     background-color: black;
     color: white;
-    /* Adjust size as needed */
     cursor: pointer;
     font-family: 'Permanent Marker', cursive;
     border: none;
-    /* Additional styling for the button as needed */
+    padding: 8px 12px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
 
+button:hover {
+    background-color: #333;
 }
 
 .stake-accounts-container button {
-    background-color: black !important;
-    color: white !important;
-    /* Other styles */
+    background-color: black;
+    color: white;
 }
 
-/* Base styles here */
-
-/* Responsive adjustments */
+/* ===== Responsive Styles ===== */
 @media screen and (max-width: 768px) {
 
     .wallet-connect-container,
     .stake-accounts-container {
         flex-direction: column;
         justify-content: flex-start;
-        /* Adjust as needed for mobile */
         padding: 20px;
-        /* Add some padding on smaller screens */
     }
 
     .header {
         flex-direction: column;
         align-items: flex-start;
-        /* Stack elements vertically */
     }
 
     .stake-button,
     .disconnect-button,
-    table button {
+    button {
         font-size: 1.2rem;
-        /* Adjust font size for readability */
         padding: 15px 30px;
-        /* Make buttons larger for easier tapping */
+        width: 100%;
+        margin-bottom: 10px;
     }
 
     table {
         font-size: 0.8rem;
-        /* Adjust table font size for mobile */
     }
 
     th,
     td {
-        padding: 4px;
-        /* Adjust table cell padding */
+        padding: 8px;
     }
 
+    /* Convert table to cards on mobile */
     table,
     thead,
     tbody,
@@ -195,37 +168,60 @@ button {
 
     tr {
         border: 4px solid black;
+        margin-bottom: 15px;
+        border-radius: 8px;
+        overflow: hidden;
     }
 
     td {
-        /* Make table cells look like rows */
         border: none;
         position: relative;
         text-align: center;
-
+        padding-left: 50%;
+        min-height: 30px;
     }
 
     /* Label the data */
     td:before {
-        /* Use the "data-label" attribute of the td to label the data */
         position: absolute;
         left: 6px;
         top: 6px;
         width: 45%;
         padding-right: 10px;
         white-space: nowrap;
+        font-weight: bold;
+        text-align: left;
     }
 
-    /* Specific labels for each td based on its column */
-    td.balance:before {
+    /* Specific labels for each td based on its position */
+    td:nth-of-type(1):before {
         content: "Balance";
     }
 
-    td.validator-name:before {
+    td:nth-of-type(2):before {
         content: "Validator Name";
     }
 
-    td.actions:before {
+    td:nth-of-type(3):before {
+        content: "Stake Account ID";
+    }
+
+    td:nth-of-type(4):before {
+        content: "Activation Status";
+    }
+
+    td:nth-of-type(5):before {
         content: "Actions";
+    }
+
+    /* Make action buttons stack vertically on mobile */
+    td:nth-of-type(5) {
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    td:nth-of-type(5) button {
+        margin: 5px 0;
     }
 }
