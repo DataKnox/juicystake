@@ -1,0 +1,130 @@
+:root {
+    /* Brand Colors */
+    --bougie-blue: #004E77;
+    --orange-burst: #FAA227;
+    --electric-light: #3AC4E1;
+    --gray-whale: #80A7BB;
+    --icy-cloud: #D1D3D4;
+
+    /* Fonts */
+    --font-montserrat: 'Montserrat', sans-serif;
+    --font-inter: 'Inter', sans-serif;
+}
+
+/* Font imports */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* Global styles */
+body {
+    font-family: var(--font-inter);
+    background-color: var(--icy-cloud);
+    color: var(--bougie-blue);
+    margin: 0;
+    padding: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: var(--font-montserrat);
+    color: var(--bougie-blue);
+}
+
+button {
+    font-family: var(--font-inter);
+    font-weight: 600;
+}
+
+/* Button styles */
+.btn-primary {
+    background-color: var(--orange-burst);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: var(--bougie-blue);
+}
+
+.btn-secondary {
+    background-color: var(--electric-light);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+    background-color: var(--gray-whale);
+}
+
+/* Card styles */
+.card {
+    background-color: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Table styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+th {
+    background-color: var(--bougie-blue);
+    color: white;
+    padding: 12px;
+    text-align: left;
+    font-family: var(--font-montserrat);
+}
+
+td {
+    padding: 12px;
+    border-bottom: 1px solid var(--icy-cloud);
+}
+
+tr:hover {
+    background-color: var(--icy-cloud);
+}
+
+/* Input styles */
+input,
+select {
+    padding: 10px;
+    border: 2px solid var(--gray-whale);
+    border-radius: 8px;
+    font-family: var(--font-inter);
+}
+
+input:focus,
+select:focus {
+    outline: none;
+    border-color: var(--electric-light);
+}
+
+/* Toast styles */
+.Toastify__toast {
+    font-family: var(--font-inter);
+    border-radius: 8px;
+}
+
+.Toastify__toast--success {
+    background-color: var(--electric-light);
+}
+
+.Toastify__toast--error {
+    background-color: var(--orange-burst);
+}
